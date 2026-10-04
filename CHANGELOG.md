@@ -6,7 +6,9 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+
+- `atm diagram system.yaml` prints the Mermaid system diagram, or writes it with `-o FILE` (#14, thanks @NurSenaKaraduman).
 
 ## [0.1.1] - 2026-10-06
 
