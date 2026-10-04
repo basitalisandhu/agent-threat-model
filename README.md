@@ -2,8 +2,6 @@
 
 Threat modeling for AI agents and LLM applications, for security architects and the engineers who own an agent: describe the system in YAML and get a STRIDE and OWASP Agentic threat model with a ranked threat register, a Mermaid diagram, a control checklist, a residual risk score and SARIF for GitHub code scanning. Deterministic, offline, no model in the loop, so the same input always gives the same report and it runs in CI.
 
-Part of [Masoon](https://github.com/basitalisandhu/masoon) ([docs](https://basitalisandhu.github.io/masoon/)), open-source trust infrastructure for AI agents: who they are, what they may touch, and proof of what they did.
-
 [![CI](https://github.com/basitalisandhu/agent-threat-model/actions/workflows/ci.yml/badge.svg)](https://github.com/basitalisandhu/agent-threat-model/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
@@ -62,10 +60,10 @@ Then write the full report:
 atm analyse system.yaml --format markdown -o threat-model.md   # also: json, sarif, html
 ```
 
-The same accounts-payable agent with and without Masoon-style controls (brokered credentials, approvals enforced outside the model, audit log, kill switch, budget caps):
+The same accounts-payable agent with and without governance controls (brokered credentials, approvals enforced outside the model, audit log, kill switch, budget caps):
 
 ```bash
-$ atm diff examples/finance-agent.yaml examples/masoon-governed.yaml
+$ atm diff examples/finance-agent.yaml examples/governed-agent.yaml
 Residual risk score: 90 (critical) -> 27 (medium), change -63
 Removed threats (10)
   - credential-exfiltration-via-tool-args  15 high  Credential exfiltration through tool call arguments
@@ -233,14 +231,14 @@ No model, no network, no randomness. Rules are a small DSL over named predicates
 `atm analyse system.yaml --format sarif -o agent-threat-model.sarif --fail-on critical` writes valid SARIF 2.1.0 and exits non-zero at the severity you choose; the GitHub Action `basitalisandhu/agent-threat-model@v0.1.0` runs that and uploads the SARIF so each applicable threat appears as a code scanning alert pointing at the element that triggers it. `atm diff old.yaml new.yaml --fail-on-regression` fails when a change adds threats or raises the residual score, so a pull request that removes an approval gate is caught.
 
 **How do I show that brokered credentials or approval gates lowered the risk?**
-Model the system twice, with and without the control, and run `atm diff`. The bundled example compares an accounts-payable agent before and after Masoon-style controls (brokered credentials, approvals enforced outside the model, audit log, kill switch, budget caps): the residual risk score falls from 90 (critical) to 27 (medium) and ten threats are removed, including credential exfiltration through tool arguments, excessive agency and the missing audit trail. The generated reports for every example are committed under [examples/reports/](examples/reports/) so the numbers can be checked without installing anything.
+Model the system twice, with and without the control, and run `atm diff`. The bundled example compares an accounts-payable agent before and after governance controls (brokered credentials, approvals enforced outside the model, audit log, kill switch, budget caps): the residual risk score falls from 90 (critical) to 27 (medium) and ten threats are removed, including credential exfiltration through tool arguments, excessive agency and the missing audit trail. The generated reports for every example are committed under [examples/reports/](examples/reports/) so the numbers can be checked without installing anything.
 
 ## Roadmap
 
 - Review of the OWASP Agentic Top 10 mapping against the published document, and a mapping for `system-prompt-leakage`.
 - Custom catalogue overlays (`--catalogue extra.yaml`) so teams can add their own threats and controls without forking.
 - Richer predicates: per-channel trust for principals, tool-to-tool data flow, model-capability flags.
-- Import from running systems: generate the YAML from MCP server manifests and Masoon Broker policies.
+- Import from running systems: generate the YAML from MCP server manifests and credential broker policy files.
 - Diagram export to SVG and PNG without a browser.
 - A `--baseline` mode that scores against a stored report and comments on pull requests.
 
@@ -250,9 +248,8 @@ Issues and pull requests are welcome. Adding a threat or control is a YAML chang
 
 ## Sibling projects
 
-- [masoon](https://github.com/basitalisandhu/masoon): the platform front door, with the [docs site](https://basitalisandhu.github.io/masoon/).
-- [Masoon Broker](https://basitalisandhu.github.io/masoon/masoon-broker.html): scoped, short-lived credentials for AI agents with approvals, kill switch and tamper-evident audit.
-- [llm-agent-control-plane](https://github.com/basitalisandhu/llm-agent-control-plane): deterministic policy enforcement point for LLM agents.
+More tools by the same author: https://github.com/basitalisandhu
+
 - [ai-agent-incidents](https://github.com/basitalisandhu/ai-agent-incidents): open, structured dataset of publicly documented AI agent security incidents, mapped to OWASP and MITRE ATLAS ([browse it](https://basitalisandhu.github.io/ai-agent-incidents/)).
 - [agentic-semgrep-rules](https://github.com/basitalisandhu/agentic-semgrep-rules): Semgrep rule pack for insecure agent code: unbounded tool permissions, eval of model output, SSRF through tool URLs, prompt interpolation, MCP servers without auth.
 - [agent-security-skills](https://github.com/basitalisandhu/agent-security-skills): Claude Code plugin and agentskills-compatible skill pack for agent security reviews: threat modelling, config audits, policy generation, incident lookup.
