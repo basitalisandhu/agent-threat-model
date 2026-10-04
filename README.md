@@ -79,17 +79,17 @@ Generated reports for every example are committed under [`examples/reports/`](ex
 Container image (linux/amd64 and linux/arm64), published to GitHub Packages on every release. The entrypoint is `atm`; mount the directory holding your system YAML at `/work`:
 
 ```bash
-docker run --rm -v "$PWD:/work" ghcr.io/basitalisandhu/agent-threat-model:0.1.0 analyse system.yaml
-docker run --rm -v "$PWD:/work" ghcr.io/basitalisandhu/agent-threat-model:0.1.0 analyse system.yaml --format sarif -o agent-threat-model.sarif --fail-on high
+docker run --rm -v "$PWD:/work" ghcr.io/basitalisandhu/agent-threat-model:0.1.1 analyse system.yaml
+docker run --rm -v "$PWD:/work" ghcr.io/basitalisandhu/agent-threat-model:0.1.1 analyse system.yaml --format sarif -o agent-threat-model.sarif --fail-on high
 ```
 
 The image runs as uid 1000, so the mounted directory must be writable by that user when you use `-o`. Each image is signed with cosign (keyless) and has a build provenance attestation and an SPDX SBOM (attached to the GitHub Release). To verify:
 
 ```bash
-cosign verify ghcr.io/basitalisandhu/agent-threat-model:0.1.0 \
+cosign verify ghcr.io/basitalisandhu/agent-threat-model:0.1.1 \
   --certificate-identity-regexp '^https://github.com/basitalisandhu/agent-threat-model/' \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com
-gh attestation verify oci://ghcr.io/basitalisandhu/agent-threat-model:0.1.0 --owner basitalisandhu
+gh attestation verify oci://ghcr.io/basitalisandhu/agent-threat-model:0.1.1 --owner basitalisandhu
 ```
 
 Python package: requires Python 3.11 or newer. PyPI publication is pending, so install from the repository:
@@ -208,7 +208,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: basitalisandhu/agent-threat-model@v0.1.0   # pin a release tag
+      - uses: basitalisandhu/agent-threat-model@v0.1.1   # pin a release tag
         with:
           system-file: system.yaml
           fail-on: critical          # none | low | medium | high | critical
@@ -228,7 +228,7 @@ Every applicable threat in the report carries its STRIDE category, OWASP Top 10 
 No model, no network, no randomness. Rules are a small DSL over named predicates evaluated in Python without `eval`, scoring is arithmetic (inherent severity is likelihood times impact, each control in place reduces the residual in proportion to its type, to a floor of 20% of inherent), and the same input always gives the same report, which is why it runs in CI and why 108 tests can pin the catalogue, rules, reports, diff and CLI. Treat the output as the starting checklist for a human review, not as a judgement about your implementation: it reasons only about what you declare.
 
 **How do I get the findings into GitHub code scanning or fail a build?**
-`atm analyse system.yaml --format sarif -o agent-threat-model.sarif --fail-on critical` writes valid SARIF 2.1.0 and exits non-zero at the severity you choose; the GitHub Action `basitalisandhu/agent-threat-model@v0.1.0` runs that and uploads the SARIF so each applicable threat appears as a code scanning alert pointing at the element that triggers it. `atm diff old.yaml new.yaml --fail-on-regression` fails when a change adds threats or raises the residual score, so a pull request that removes an approval gate is caught.
+`atm analyse system.yaml --format sarif -o agent-threat-model.sarif --fail-on critical` writes valid SARIF 2.1.0 and exits non-zero at the severity you choose; the GitHub Action `basitalisandhu/agent-threat-model@v0.1.1` runs that and uploads the SARIF so each applicable threat appears as a code scanning alert pointing at the element that triggers it. `atm diff old.yaml new.yaml --fail-on-regression` fails when a change adds threats or raises the residual score, so a pull request that removes an approval gate is caught.
 
 **How do I show that brokered credentials or approval gates lowered the risk?**
 Model the system twice, with and without the control, and run `atm diff`. The bundled example compares an accounts-payable agent before and after governance controls (brokered credentials, approvals enforced outside the model, audit log, kill switch, budget caps): the residual risk score falls from 90 (critical) to 27 (medium) and ten threats are removed, including credential exfiltration through tool arguments, excessive agency and the missing audit trail. The generated reports for every example are committed under [examples/reports/](examples/reports/) so the numbers can be checked without installing anything.

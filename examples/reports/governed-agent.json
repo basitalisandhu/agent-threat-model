@@ -2,7 +2,7 @@
   "report_schema_version": "1",
   "tool": {
     "name": "agent-threat-model",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "source": "examples/governed-agent.yaml",
   "system": {
