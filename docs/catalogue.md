@@ -554,7 +554,6 @@ A written playbook covers how to pause agents, revoke credentials, preserve audi
 An operator can halt one agent or all agents immediately. Halting revokes outstanding credentials and cancels queued tool calls, and the switch is tested regularly.
 
 - Mitigates: [`excessive-agency`](#excessive-agency), [`unsandboxed-exec`](#unsandboxed-exec), [`static-long-lived-credentials`](#static-long-lived-credentials), [`missing-kill-switch`](#missing-kill-switch), [`hitl-bypass`](#hitl-bypass)
-- Reference: <https://basitalisandhu.github.io/masoon/masoon-broker.html>
 - Reference: <https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf>
 
 ### model-version-pinning
@@ -641,7 +640,6 @@ Each agent and principal has its own identity. Messages between agents and calls
 - Mitigates: [`unauthenticated-tool`](#unauthenticated-tool), [`cross-agent-trust`](#cross-agent-trust), [`low-trust-principal-drives-agent`](#low-trust-principal-drives-agent)
 - Reference: <https://atlas.mitre.org/mitigations/AML.M0032>
 - Reference: <https://cheatsheetseries.owasp.org/cheatsheets/Microservices_Security_Cheat_Sheet.html>
-- Reference: <https://basitalisandhu.github.io/masoon/masoon-broker.html>
 
 ### approval-fatigue-controls
 
@@ -651,7 +649,6 @@ Approvals are risk-based rather than blanket, batched where safe, show a diff of
 
 - Mitigates: [`approval-fatigue`](#approval-fatigue)
 - Reference: <https://atlas.mitre.org/mitigations/AML.M0029>
-- Reference: <https://basitalisandhu.github.io/masoon/masoon-broker.html>
 
 ### approval-gates
 
@@ -661,7 +658,6 @@ Write, exec, payment and messaging actions above a defined threshold require an 
 
 - Mitigates: [`indirect-prompt-injection`](#indirect-prompt-injection), [`direct-prompt-injection`](#direct-prompt-injection), [`tool-poisoning`](#tool-poisoning), [`excessive-agency`](#excessive-agency), [`data-exfiltration-via-messaging`](#data-exfiltration-via-messaging), [`unsandboxed-exec`](#unsandboxed-exec), [`over-permissive-scopes`](#over-permissive-scopes), [`hitl-bypass`](#hitl-bypass), [`denial-of-wallet`](#denial-of-wallet), [`destructive-write-actions`](#destructive-write-actions), [`low-trust-principal-drives-agent`](#low-trust-principal-drives-agent), [`hallucinated-actions`](#hallucinated-actions)
 - Reference: <https://atlas.mitre.org/mitigations/AML.M0029>
-- Reference: <https://basitalisandhu.github.io/masoon/masoon-broker.html>
 - Reference: <https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM06_ExcessiveAgency.md>
 
 ### audit-log
@@ -673,7 +669,6 @@ Every tool call is recorded with the acting agent, principal, arguments, result,
 - Mitigates: [`credential-exfiltration-via-tool-args`](#credential-exfiltration-via-tool-args), [`excessive-agency`](#excessive-agency), [`ssrf-via-url-tool`](#ssrf-via-url-tool), [`data-exfiltration-via-messaging`](#data-exfiltration-via-messaging), [`memory-poisoning`](#memory-poisoning), [`unsandboxed-exec`](#unsandboxed-exec), [`static-long-lived-credentials`](#static-long-lived-credentials), [`unauthenticated-tool`](#unauthenticated-tool), [`missing-audit-trail`](#missing-audit-trail), [`rag-poisoning`](#rag-poisoning), [`cross-agent-trust`](#cross-agent-trust), [`hitl-bypass`](#hitl-bypass), [`sensitive-data-disclosure`](#sensitive-data-disclosure), [`destructive-write-actions`](#destructive-write-actions), [`agent-config-tampering`](#agent-config-tampering)
 - Reference: <https://atlas.mitre.org/mitigations/AML.M0024>
 - Reference: <https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html>
-- Reference: <https://basitalisandhu.github.io/masoon/masoon-broker.html>
 
 ### backups-and-rollback
 
@@ -691,7 +686,6 @@ Data stores an agent can write to have point-in-time backups and a tested rollba
 Agents never hold long-lived secrets. A broker issues per-task credentials bound to a scope, a time limit and an audit record, and can revoke them centrally.
 
 - Mitigates: [`credential-exfiltration-via-tool-args`](#credential-exfiltration-via-tool-args), [`static-long-lived-credentials`](#static-long-lived-credentials), [`unauthenticated-tool`](#unauthenticated-tool), [`missing-kill-switch`](#missing-kill-switch), [`over-permissive-scopes`](#over-permissive-scopes)
-- Reference: <https://basitalisandhu.github.io/masoon/masoon-broker.html>
 - Reference: <https://cheatsheetseries.owasp.org/cheatsheets/Secrets_Management_Cheat_Sheet.html>
 - Reference: <https://atlas.mitre.org/mitigations/AML.M0019>
 
@@ -714,7 +708,6 @@ Each span of text that enters the model context is labelled with its origin (use
 - Mitigates: [`indirect-prompt-injection`](#indirect-prompt-injection), [`tool-poisoning`](#tool-poisoning), [`data-exfiltration-via-messaging`](#data-exfiltration-via-messaging), [`memory-poisoning`](#memory-poisoning), [`rag-poisoning`](#rag-poisoning), [`cross-agent-trust`](#cross-agent-trust), [`malicious-file-input`](#malicious-file-input)
 - Reference: <https://atlas.mitre.org/mitigations/AML.M0030>
 - Reference: <https://atlas.mitre.org/mitigations/AML.M0033>
-- Reference: <https://github.com/basitalisandhu/llm-agent-control-plane>
 - Reference: <https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM01_PromptInjection.md>
 
 ### least-privilege-tool-scopes
@@ -727,7 +720,6 @@ Every tool is granted the narrowest scope that the task needs (specific reposito
 - Reference: <https://atlas.mitre.org/mitigations/AML.M0028>
 - Reference: <https://atlas.mitre.org/mitigations/AML.M0026>
 - Reference: <https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM06_ExcessiveAgency.md>
-- Reference: <https://basitalisandhu.github.io/masoon/masoon-broker.html>
 
 ### memory-write-validation
 
@@ -768,7 +760,6 @@ Only approved sources are ingested into retrieval indexes, documents are scanned
 Tool calls pass through a deterministic policy enforcement point that checks provenance, scope, approval state and limits before execution. Rules written into the prompt are advice to the model, not a control.
 
 - Mitigates: [`direct-prompt-injection`](#direct-prompt-injection), [`excessive-agency`](#excessive-agency), [`approval-fatigue`](#approval-fatigue), [`hitl-bypass`](#hitl-bypass), [`system-prompt-leakage`](#system-prompt-leakage), [`agent-config-tampering`](#agent-config-tampering)
-- Reference: <https://github.com/basitalisandhu/llm-agent-control-plane>
 - Reference: <https://atlas.mitre.org/mitigations/AML.M0033>
 - Reference: <https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf>
 
