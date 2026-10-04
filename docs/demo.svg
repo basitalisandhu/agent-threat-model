@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="1092" viewBox="0 0 920 1092" role="img" aria-label="atm analyse and atm diff on the committed examples">
+<title>atm analyse and atm diff on the committed examples</title>
+<rect width="920" height="1092" rx="8" fill="#0A1628"/>
+<path d="M0 8a8 8 0 0 1 8-8h904a8 8 0 0 1 8 8v28h-920z" fill="#13233D"/>
+<circle cx="20" cy="18" r="6" fill="#FF7B72"/><circle cx="40" cy="18" r="6" fill="#E3B341"/><circle cx="60" cy="18" r="6" fill="#7EE787"/>
+<text x="460" y="23" fill="#7D8BA1" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13" text-anchor="middle" xml:space="preserve">atm analyse and atm diff on the committed examples</text>
+<g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="14" fill="#D7DEE8" xml:space="preserve" style="white-space:pre">
+<text x="24" y="68" xml:space="preserve"><tspan fill="#7FD1AE">$ atm analyse examples/support-bot.yaml --plain</tspan></text>
+<text x="24" y="88" xml:space="preserve">Threat model: Customer support assistant</text>
+<text x="24" y="128" xml:space="preserve">#   Threat                                 STRIDE                  OWASP LLM            Inherent</text>
+<text x="24" y="148" xml:space="preserve">Residual    Affected</text>
+<text x="24" y="168" xml:space="preserve">--  -------------------------------------  ----------------------  -------------------  --------</text>
+<text x="24" y="188" xml:space="preserve">----------  ---------------------------------------------------------</text>
+<text x="24" y="208" xml:space="preserve">1   excessive-agency                       Elevation of privilege  LLM06                16 <tspan fill="#FF7B72">High</tspan></text>
+<text x="24" y="228" xml:space="preserve">16 <tspan fill="#FF7B72">High</tspan>     create-ticket, support-bot</text>
+<text x="24" y="248" xml:space="preserve">2   indirect-prompt-injection              Tampering               LLM01                16 <tspan fill="#FF7B72">High</tspan></text>
+<text x="24" y="268" xml:space="preserve">16 <tspan fill="#FF7B72">High</tspan>     inbound-email, support-bot, web-chat</text>
+<text x="24" y="288" xml:space="preserve">3   credential-exfiltration-via-tool-args  Information disclosure  LLM02, LLM01         15 <tspan fill="#FF7B72">High</tspan></text>
+<text x="24" y="308" xml:space="preserve">15 <tspan fill="#FF7B72">High</tspan>     create-ticket, lookup-customer, send-email, support-bot</text>
+<text x="24" y="328" xml:space="preserve">4   data-exfiltration-via-messaging        Information disclosure  LLM02, LLM01         15 <tspan fill="#FF7B72">High</tspan></text>
+<text x="24" y="348" xml:space="preserve">15 <tspan fill="#FF7B72">High</tspan>     crm, inbound-email, lookup-customer, send-email ...</text>
+<text x="24" y="368" xml:space="preserve">5   denial-of-wallet                       Denial of service       LLM10                12 <tspan fill="#FF7B72">High</tspan></text>
+<text x="24" y="388" xml:space="preserve">12 <tspan fill="#FF7B72">High</tspan>     support-bot</text>
+<text x="24" y="408" xml:space="preserve"><tspan fill="#7D8BA1">[... 17 more lines; run the command to see them all ...]</tspan></text>
+<text x="24" y="428" xml:space="preserve">21 of the catalogue threats apply to 'Customer support assistant' (0 <tspan fill="#FF7B72">critical</tspan>, 14 <tspan fill="#FF7B72">high</tspan>, 7 <tspan fill="#E3B341">medium</tspan>, 0</text>
+<text x="24" y="448" xml:space="preserve"><tspan fill="#7EE787">low</tspan> after mitigations). Residual risk score 99/100 (<tspan fill="#FF7B72">Critical</tspan>). The 1 control(s) in place reduce</text>
+<text x="24" y="468" xml:space="preserve">modelled risk by 1% compared with the same system with no controls.</text>
+<text x="24" y="508" xml:space="preserve">Highest-leverage missing controls:</text>
+<text x="24" y="528" xml:space="preserve">  - approval-gates: Human approval for high-impact actions (mitigates 9 applicable threat(s))</text>
+<text x="24" y="548" xml:space="preserve">  - audit-log: Tamper-evident audit log of every tool call (mitigates 9 applicable threat(s))</text>
+<text x="24" y="568" xml:space="preserve">  - least-privilege-tool-scopes: Least-privilege scopes on every tool (mitigates 8 applicable</text>
+<text x="24" y="588" xml:space="preserve">threat(s))</text>
+<text x="24" y="608" xml:space="preserve">  - adversarial-testing: Adversarial testing before and after release (mitigates 4 applicable</text>
+<text x="24" y="628" xml:space="preserve">threat(s))</text>
+<text x="24" y="648" xml:space="preserve">  - brokered-credentials: Short-lived, scoped, brokered credentials (mitigates 4 applicable</text>
+<text x="24" y="668" xml:space="preserve">threat(s))</text>
+<text x="24" y="708" xml:space="preserve"><tspan fill="#7FD1AE">$ atm diff examples/finance-agent.yaml examples/governed-agent.yaml</tspan></text>
+<text x="24" y="728" xml:space="preserve">Diff: examples/finance-agent.yaml -&gt; examples/governed-agent.yaml</text>
+<text x="24" y="768" xml:space="preserve">Residual risk score: 90 (<tspan fill="#FF7B72">critical</tspan>) -&gt; 27 (<tspan fill="#E3B341">medium</tspan>), change -63</text>
+<text x="24" y="788" xml:space="preserve">Residual total: 209.2 -&gt; 48.3</text>
+<text x="24" y="808" xml:space="preserve">Controls added: approval-fatigue-controls, argument-validation, audit-log, brokered-credentials,</text>
+<text x="24" y="828" xml:space="preserve">budget-caps, dlp-outbound, egress-allowlist, incident-response-playbook, input-provenance-tagging,</text>
+<text x="24" y="848" xml:space="preserve">kill-switch, least-privilege-tool-scopes, model-version-pinning, per-user-authorisation,</text>
+<text x="24" y="868" xml:space="preserve">rate-limiting, runtime-policy-enforcement, secrets-out-of-context, tool-integrity-pinning</text>
+<text x="24" y="908" xml:space="preserve">New threats (0)</text>
+<text x="24" y="928" xml:space="preserve">Removed threats (10)</text>
+<text x="24" y="948" xml:space="preserve">  - credential-exfiltration-via-tool-args  15 <tspan fill="#FF7B72">high</tspan>  Credential exfiltration through tool call</text>
+<text x="24" y="968" xml:space="preserve">arguments</text>
+<text x="24" y="988" xml:space="preserve">  - excessive-agency  12.9 <tspan fill="#FF7B72">high</tspan>  Excessive agency on write, exec or payment tools</text>
+<text x="24" y="1008" xml:space="preserve">  - missing-audit-trail  12 <tspan fill="#FF7B72">high</tspan>  No tamper-evident audit trail of tool calls</text>
+<text x="24" y="1028" xml:space="preserve">  - missing-kill-switch  12 <tspan fill="#FF7B72">high</tspan>  No kill switch or credential revocation</text>
+<text x="24" y="1048" xml:space="preserve"><tspan fill="#7D8BA1">[... 17 more lines; run the command to see them all ...]</tspan></text>
+<text x="24" y="1068" xml:space="preserve">Unchanged threats: 0</text>
+</g>
+</svg>

@@ -6,6 +6,12 @@ Threat modeling for AI agents and LLM applications, for security architects and 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 
+## Demo
+
+![Terminal output of atm analyse on the support-bot example and atm diff between the finance agent and governed agent examples](docs/demo.svg)
+
+Generated from the committed fixtures by [`scripts/render_demo.py`](scripts/render_demo.py); run `python3 scripts/render_demo.py` to regenerate it.
+
 ## Why
 
 Agent systems fail in predictable ways: an email the agent reads tells it to forward the customer database, a shell tool runs without a sandbox, a payment tool needs no approval, a static API key sits in the prompt. Security reviews keep rediscovering the same twenty-odd threats by hand. This tool encodes them once, as rules over the architecture you declare, and tells you which ones apply to your system, how bad they are, and which control removes the most risk for the least effort.
