@@ -160,16 +160,13 @@ def _plain(analysis: Analysis) -> str:
 
 @app.command("validate")
 def validate_command(
-    files: Annotated[list[Path], typer.Argument(help="System YAML file(s).")],
+    files: Annotated[list[Path], typer.Argument(help="System YAML file(s).", metavar="FILE...")],
 ) -> None:
     """Validate system descriptions against the schema and the control catalogue."""
     single = len(files) == 1
-    if single:
-        # Preserve Click's original path validation and diagnostics for one file.
-        typer.main.get_click_type(
-            annotation=Path,
-            parameter_info=typer.Argument(exists=True, dir_okay=False),
-        ).convert(str(files[0]), None, None)
+    if single and not files[0].is_file():
+        what = "is a directory" if files[0].is_dir() else "does not exist"
+        raise typer.BadParameter(f"File '{files[0]}' {what}.", param_hint="'file'")
     invalid = False
     for file in files:
         try:
