@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agent-threat-model"
-version = "0.1.1"
+version = "0.2.0"
 description = "Deterministic, offline STRIDE and OWASP threat modelling for LLM-agent systems described in YAML."
 readme = "README.md"
 requires-python = ">=3.11"

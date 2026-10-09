@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-09
+
 ### Added
 
 - `atm validate` accepts several files, reports one line per file and exits 2 if any fail; single-file diagnostics retain their parameter hint.
@@ -39,6 +41,7 @@ All notable changes to this project are documented here. The format follows
 - Renamed the umbrella project from Hisar to Masoon; links, names and identifiers updated.
 - PyPI publishing (release.yml) is off until the repository variable `PYPI_PUBLISH` is set to `true`.
 
-[Unreleased]: https://github.com/basitalisandhu/agent-threat-model/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/basitalisandhu/agent-threat-model/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/basitalisandhu/agent-threat-model/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/basitalisandhu/agent-threat-model/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/basitalisandhu/agent-threat-model/releases/tag/v0.1.0
