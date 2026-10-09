@@ -2,6 +2,11 @@
 
 A system description is one YAML file with seven top-level keys. Unknown keys are errors, ids must match `^[a-z0-9][a-z0-9._-]*$` and be unique across all element types, and every reference must resolve. `atm validate` checks all of this; the JSON Schema lives at [`schema/system.schema.json`](../schema/system.schema.json) and `atm schema` prints it.
 
+Validate several descriptions with `atm validate examples/*.yaml`. Each file gets
+one `ok:` or `error:` line, and validation continues after invalid or unreadable
+files. The exit code is 0 only when every file is valid, otherwise 2. A single
+file retains the existing detailed validation diagnostics.
+
 ```yaml
 system: {...}
 principals: [...]

@@ -160,21 +160,35 @@ def _plain(analysis: Analysis) -> str:
 
 @app.command("validate")
 def validate_command(
-    file: Annotated[Path, typer.Argument(exists=True, dir_okay=False, help="System YAML file.")],
+    files: Annotated[list[Path], typer.Argument(help="System YAML file(s).", metavar="FILE...")],
 ) -> None:
-    """Validate a system description against the schema and the control catalogue."""
-    try:
-        system = load_system(file)
-    except SystemLoadError as error:
-        typer.echo(f"invalid: {error.source}", err=True)
-        for problem in error.problems:
-            typer.echo(f"  - {problem}", err=True)
-        raise typer.Exit(EXIT_INPUT) from error
-    typer.echo(
-        f"ok: {file} ({len(system.agents)} agent(s), {len(system.channels)} channel(s), "
-        f"{len(system.tools)} tool(s), {len(system.data_stores)} data store(s), "
-        f"{len(system.controls)} control(s))"
-    )
+    """Validate system descriptions against the schema and the control catalogue."""
+    single = len(files) == 1
+    if single and not files[0].is_file():
+        what = "is a directory" if files[0].is_dir() else "does not exist"
+        raise typer.BadParameter(f"File '{files[0]}' {what}.", param_hint="'file'")
+    invalid = False
+    for file in files:
+        try:
+            system = load_system(file)
+        except SystemLoadError as error:
+            invalid = True
+            if single:
+                typer.echo(f"invalid: {error.source}", err=True)
+                for problem in error.problems:
+                    typer.echo(f"  - {problem}", err=True)
+            else:
+                # YAML parse diagnostics can contain newlines; each file gets one line.
+                problems = "; ".join(" ".join(p.splitlines()) for p in error.problems)
+                typer.echo(f"error: {error.source}: {problems}", err=True)
+            continue
+        typer.echo(
+            f"ok: {file} ({len(system.agents)} agent(s), {len(system.channels)} channel(s), "
+            f"{len(system.tools)} tool(s), {len(system.data_stores)} data store(s), "
+            f"{len(system.controls)} control(s))"
+        )
+    if invalid:
+        raise typer.Exit(EXIT_INPUT)
 
 
 @app.command("diagram")

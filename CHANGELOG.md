@@ -8,6 +8,10 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- `atm validate` accepts several files, reports one line per file and exits 2 if any fail; single-file diagnostics retain their parameter hint.
+
+### Added
+
 - `atm diagram system.yaml` prints the Mermaid system diagram, or writes it with `-o FILE` (#14, thanks @NurSenaKaraduman).
 
 ## [0.1.1] - 2026-10-06
