@@ -79,6 +79,9 @@ Removed threats (10)
 ```
 
 Generated reports for every example are committed under [`examples/reports/`](examples/reports/).
+Alongside the support, coding and finance examples, try
+[`examples/research-agent.yaml`](examples/research-agent.yaml) to model a browsing agent with
+untrusted web input, a network tool, persistent memory and a writable research-notes store.
 
 ## Install
 

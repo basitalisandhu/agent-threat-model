@@ -46,6 +46,16 @@ def test_coding_agent_hits_exec_threats(example_path):
     assert analysis.findings[0].threat_id == "unsandboxed-exec"
 
 
+def test_research_agent_hits_browsing_and_memory_threats(example_path):
+    analysis = analyse(load_system(example_path("research-agent")))
+    ids = {finding.threat_id for finding in analysis.findings}
+    assert {
+        "ssrf-via-url-tool",
+        "memory-poisoning",
+        "indirect-prompt-injection",
+    } <= ids
+
+
 def test_init_template_matches_support_bot_example():
     assert (EXAMPLES / "support-bot.yaml").read_text(encoding="utf-8") == TEMPLATE
 

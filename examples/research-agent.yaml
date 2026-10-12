@@ -1,0 +1,58 @@
+# Research agent: searches untrusted public web pages, writes findings to a
+# persistent store and remembers context across research sessions.
+system:
+  name: Web research agent
+  description: >-
+    Investigates user questions by searching and reading public web pages,
+    saves structured notes and carries useful context into later sessions.
+  owner: research-platform team
+
+principals:
+  - id: researcher
+    kind: human
+    trust: high
+    channels: [research-brief]
+
+agents:
+  - id: researcher-agent
+    model_provider: hosted LLM
+    autonomy: act
+    memory: persistent
+    inputs: [research-brief, public-web]
+    tools: [web-search, save-notes]
+
+channels:
+  - id: research-brief
+    kind: chat
+    trusted: true
+    origin: user
+    description: Questions and constraints supplied by the researcher.
+  - id: public-web
+    kind: web
+    trusted: false
+    origin: third-party
+    description: Search results and arbitrary pages controlled by external publishers.
+
+tools:
+  - id: web-search
+    kind: network
+    target: public internet
+    scope: fetch public URLs selected during research
+    auth: none
+    approval: none
+    sandboxed: true
+  - id: save-notes
+    kind: write
+    target: research-notes
+    scope: append structured research notes
+    auth: short-lived
+    approval: none
+    sandboxed: true
+
+data_stores:
+  - id: research-notes
+    sensitivity: internal
+    description: Persistent summaries and source excerpts from earlier sessions.
+
+controls:
+  - audit-log

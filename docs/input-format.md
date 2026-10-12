@@ -127,4 +127,4 @@ Arguments are `key=value`; several values are separated with `|`. Rules are pars
 
 ## A complete example
 
-See [`examples/`](../examples/) for four systems: a support chatbot, a coding agent, an accounts payable agent and the same agent governed by brokered credentials, approval gates and an audit log. `atm init` writes the support-bot example to start from.
+See [`examples/`](../examples/) for five systems: a support chatbot, a coding agent, an accounts payable agent, the same agent governed by brokered credentials, approval gates and an audit log, and a web research agent with persistent memory. `atm init` writes the support-bot example to start from.

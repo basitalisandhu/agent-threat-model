@@ -29,7 +29,7 @@ docs: schema
 	$(PY) python scripts/gen_catalogue_doc.py
 
 reports:
-	@for name in support-bot coding-agent finance-agent governed-agent; do \
+	@for name in support-bot coding-agent finance-agent governed-agent research-agent; do \
 	  for fmt in markdown json sarif html; do \
 	    case $$fmt in markdown) ext=md ;; *) ext=$$fmt ;; esac; \
 	    $(PY) atm analyse examples/$$name.yaml --format $$fmt --output examples/reports/$$name.$$ext; \
