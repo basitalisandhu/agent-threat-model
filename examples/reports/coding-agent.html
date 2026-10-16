@@ -123,7 +123,7 @@ ul.check li.present::before { content: "\2611  "; }
 <table><tbody>
 <tr><th>STRIDE</th><td>Elevation of privilege</td></tr>
 <tr><th>OWASP LLM Top 10 (2025)</th><td>LLM06 Excessive Agency, LLM05 Improper Output Handling</td></tr>
-<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI05 Unexpected Code Execution</td></tr>
+<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI05 Unexpected Code Execution (RCE)</td></tr>
 <tr><th>MITRE ATLAS</th><td><a href="https://atlas.mitre.org/techniques/AML.T0050">AML.T0050</a>, <a href="https://atlas.mitre.org/techniques/AML.T0105">AML.T0105</a>, <a href="https://atlas.mitre.org/techniques/AML.T0072">AML.T0072</a></td></tr>
 <tr><th>Severity</th><td>inherent 20 (<span class="band-critical">Critical</span>), residual 17.7 (<span class="band-high">High</span>), coverage 15%</td></tr>
 <tr><th>Rule</th><td><code>tool_kind_not_sandboxed(kinds=exec)</code></td></tr>
@@ -206,7 +206,7 @@ ul.check li.present::before { content: "\2611  "; }
 <table><tbody>
 <tr><th>STRIDE</th><td>Denial of service</td></tr>
 <tr><th>OWASP LLM Top 10 (2025)</th><td>LLM10 Unbounded Consumption</td></tr>
-<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI08 Cascading Agent Failures</td></tr>
+<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI08 Cascading Failures</td></tr>
 <tr><th>MITRE ATLAS</th><td><a href="https://atlas.mitre.org/techniques/AML.T0034.002">AML.T0034.002</a>, <a href="https://atlas.mitre.org/techniques/AML.T0034">AML.T0034</a></td></tr>
 <tr><th>Severity</th><td>inherent 12 (<span class="band-high">High</span>), residual 12 (<span class="band-high">High</span>), coverage 0%</td></tr>
 <tr><th>Rule</th><td><code>all(control_missing(control=budget-caps), any(agent_has_tool_kind(kinds=payment|network), agent_autonomy_in(autonomy=act)))</code></td></tr>
@@ -245,7 +245,7 @@ ul.check li.present::before { content: "\2611  "; }
 <table><tbody>
 <tr><th>STRIDE</th><td>Elevation of privilege</td></tr>
 <tr><th>OWASP LLM Top 10 (2025)</th><td>LLM06 Excessive Agency</td></tr>
-<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI10 Rogue Agents, ASI08 Cascading Agent Failures</td></tr>
+<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI10 Rogue Agents, ASI08 Cascading Failures</td></tr>
 <tr><th>MITRE ATLAS</th><td>-</td></tr>
 <tr><th>Severity</th><td>inherent 12 (<span class="band-high">High</span>), residual 12 (<span class="band-high">High</span>), coverage 0%</td></tr>
 <tr><th>Rule</th><td><code>all(control_missing(control=kill-switch), agent_autonomy_in(autonomy=act|act-with-approval))</code></td></tr>
@@ -282,7 +282,7 @@ ul.check li.present::before { content: "\2611  "; }
 <tr><th>STRIDE</th><td>Tampering</td></tr>
 <tr><th>OWASP LLM Top 10 (2025)</th><td>LLM01 Prompt Injection, LLM03 Supply Chain</td></tr>
 <tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI04 Agentic Supply Chain Vulnerabilities, ASI01 Agent Goal Hijack</td></tr>
-<tr><th>MITRE ATLAS</th><td><a href="https://atlas.mitre.org/techniques/AML.T0110">AML.T0110</a>, <a href="https://atlas.mitre.org/techniques/AML.T0104">AML.T0104</a>, <a href="https://atlas.mitre.org/techniques/AML.T0099">AML.T0099</a></td></tr>
+<tr><th>MITRE ATLAS</th><td><a href="https://atlas.mitre.org/techniques/AML.T0110">AML.T0110</a>, <a href="https://atlas.mitre.org/techniques/AML.T0115.002">AML.T0115.002</a>, <a href="https://atlas.mitre.org/techniques/AML.T0011.002">AML.T0011.002</a>, <a href="https://atlas.mitre.org/techniques/AML.T0099">AML.T0099</a></td></tr>
 <tr><th>Severity</th><td>inherent 12 (<span class="band-high">High</span>), residual 12 (<span class="band-high">High</span>), coverage 0%</td></tr>
 <tr><th>Rule</th><td><code>third_party_tool</code></td></tr>
 </tbody></table>
@@ -299,7 +299,7 @@ ul.check li.present::before { content: "\2611  "; }
 <table><tbody>
 <tr><th>STRIDE</th><td>Tampering</td></tr>
 <tr><th>OWASP LLM Top 10 (2025)</th><td>LLM01 Prompt Injection, LLM04 Data and Model Poisoning</td></tr>
-<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI06 Memory and Context Poisoning</td></tr>
+<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI06 Memory &amp; Context Poisoning</td></tr>
 <tr><th>MITRE ATLAS</th><td><a href="https://atlas.mitre.org/techniques/AML.T0080.000">AML.T0080.000</a></td></tr>
 <tr><th>Severity</th><td>inherent 12 (<span class="band-high">High</span>), residual 10.4 (<span class="band-medium">Medium</span>), coverage 17%</td></tr>
 <tr><th>Rule</th><td><code>agent_memory_is(memory=persistent)</code></td></tr>
@@ -433,7 +433,7 @@ ul.check li.present::before { content: "\2611  "; }
 <table><tbody>
 <tr><th>STRIDE</th><td>Tampering</td></tr>
 <tr><th>OWASP LLM Top 10 (2025)</th><td>LLM05 Improper Output Handling</td></tr>
-<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI05 Unexpected Code Execution</td></tr>
+<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI05 Unexpected Code Execution (RCE)</td></tr>
 <tr><th>MITRE ATLAS</th><td><a href="https://atlas.mitre.org/techniques/AML.T0077">AML.T0077</a>, <a href="https://atlas.mitre.org/techniques/AML.T0067">AML.T0067</a></td></tr>
 <tr><th>Severity</th><td>inherent 9 (<span class="band-medium">Medium</span>), residual 9 (<span class="band-medium">Medium</span>), coverage 0%</td></tr>
 <tr><th>Rule</th><td><code>any(agent_has_tool_kind(kinds=exec|write), agent_has_channel_kind(kinds=web))</code></td></tr>
@@ -471,7 +471,7 @@ ul.check li.present::before { content: "\2611  "; }
 <table><tbody>
 <tr><th>STRIDE</th><td>Denial of service</td></tr>
 <tr><th>OWASP LLM Top 10 (2025)</th><td>LLM10 Unbounded Consumption</td></tr>
-<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI08 Cascading Agent Failures</td></tr>
+<tr><th>OWASP Agentic Top 10 (2026)</th><td>ASI08 Cascading Failures</td></tr>
 <tr><th>MITRE ATLAS</th><td><a href="https://atlas.mitre.org/techniques/AML.T0029">AML.T0029</a>, <a href="https://atlas.mitre.org/techniques/AML.T0034">AML.T0034</a></td></tr>
 <tr><th>Severity</th><td>inherent 9 (<span class="band-medium">Medium</span>), residual 9 (<span class="band-medium">Medium</span>), coverage 0%</td></tr>
 <tr><th>Rule</th><td><code>all(control_missing(control=rate-limiting), agent_has_any_tool)</code></td></tr>

@@ -255,7 +255,7 @@ The agent can spend money or paid API quota and nothing caps the amount per task
 |---|---|
 | STRIDE | Denial of service |
 | OWASP LLM Top 10 (2025) | LLM10 Unbounded Consumption |
-| OWASP Agentic Top 10 (2026) | ASI08 Cascading Agent Failures |
+| OWASP Agentic Top 10 (2026) | ASI08 Cascading Failures |
 | MITRE ATLAS | [AML.T0034.002](https://atlas.mitre.org/techniques/AML.T0034.002), [AML.T0034](https://atlas.mitre.org/techniques/AML.T0034) |
 | Inherent severity | 12 (High): likelihood 3 x impact 4 |
 | Residual severity | 12 (High), mitigation coverage 0% |
@@ -401,7 +401,7 @@ An agent that acts in the world cannot be stopped quickly. When behaviour goes w
 |---|---|
 | STRIDE | Elevation of privilege |
 | OWASP LLM Top 10 (2025) | LLM06 Excessive Agency |
-| OWASP Agentic Top 10 (2026) | ASI10 Rogue Agents, ASI08 Cascading Agent Failures |
+| OWASP Agentic Top 10 (2026) | ASI10 Rogue Agents, ASI08 Cascading Failures |
 | MITRE ATLAS | - |
 | Inherent severity | 12 (High): likelihood 3 x impact 4 |
 | Residual severity | 12 (High), mitigation coverage 0% |
@@ -452,7 +452,7 @@ The agent retrieves passages from an index. Anyone who can get a document into t
 |---|---|
 | STRIDE | Tampering |
 | OWASP LLM Top 10 (2025) | LLM08 Vector and Embedding Weaknesses, LLM04 Data and Model Poisoning, LLM01 Prompt Injection |
-| OWASP Agentic Top 10 (2026) | ASI06 Memory and Context Poisoning |
+| OWASP Agentic Top 10 (2026) | ASI06 Memory & Context Poisoning |
 | MITRE ATLAS | [AML.T0070](https://atlas.mitre.org/techniques/AML.T0070), [AML.T0071](https://atlas.mitre.org/techniques/AML.T0071), [AML.T0066](https://atlas.mitre.org/techniques/AML.T0066) |
 | Inherent severity | 12 (High): likelihood 3 x impact 4 |
 | Residual severity | 12 (High), mitigation coverage 0% |
@@ -571,7 +571,7 @@ Nothing bounds how many tool calls or loop iterations an agent may make. A runaw
 |---|---|
 | STRIDE | Denial of service |
 | OWASP LLM Top 10 (2025) | LLM10 Unbounded Consumption |
-| OWASP Agentic Top 10 (2026) | ASI08 Cascading Agent Failures |
+| OWASP Agentic Top 10 (2026) | ASI08 Cascading Failures |
 | MITRE ATLAS | [AML.T0029](https://atlas.mitre.org/techniques/AML.T0029), [AML.T0034](https://atlas.mitre.org/techniques/AML.T0034) |
 | Inherent severity | 9 (Medium): likelihood 3 x impact 3 |
 | Residual severity | 9 (Medium), mitigation coverage 0% |
@@ -624,7 +624,7 @@ The agent keeps memory and serves more than one user. Without strict partitionin
 |---|---|
 | STRIDE | Information disclosure |
 | OWASP LLM Top 10 (2025) | LLM02 Sensitive Information Disclosure |
-| OWASP Agentic Top 10 (2026) | ASI06 Memory and Context Poisoning |
+| OWASP Agentic Top 10 (2026) | ASI06 Memory & Context Poisoning |
 | MITRE ATLAS | [AML.T0057](https://atlas.mitre.org/techniques/AML.T0057), [AML.T0092](https://atlas.mitre.org/techniques/AML.T0092) |
 | Inherent severity | 8 (Medium): likelihood 2 x impact 4 |
 | Residual severity | 8 (Medium), mitigation coverage 0% |
@@ -715,7 +715,7 @@ Downstream components render model output in a browser, pass it to a shell or da
 |---|---|
 | STRIDE | Tampering |
 | OWASP LLM Top 10 (2025) | LLM05 Improper Output Handling |
-| OWASP Agentic Top 10 (2026) | ASI05 Unexpected Code Execution |
+| OWASP Agentic Top 10 (2026) | ASI05 Unexpected Code Execution (RCE) |
 | MITRE ATLAS | [AML.T0077](https://atlas.mitre.org/techniques/AML.T0077), [AML.T0067](https://atlas.mitre.org/techniques/AML.T0067) |
 | Inherent severity | 9 (Medium): likelihood 3 x impact 3 |
 | Residual severity | 6.6 (Medium), mitigation coverage 33% |

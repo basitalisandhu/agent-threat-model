@@ -143,3 +143,45 @@ def test_loader_rejects_unknown_agentic_id():
         assert "ASI11" in str(error) or "pattern" in str(error)
     else:
         raise AssertionError("expected validation error")
+
+
+# The published OWASP Top 10 for Agentic Applications 2026 (December 2025),
+# titles as printed in the document's table of contents.
+PUBLISHED_OWASP_AGENTIC_2026 = {
+    "ASI01": "Agent Goal Hijack",
+    "ASI02": "Tool Misuse and Exploitation",
+    "ASI03": "Identity and Privilege Abuse",
+    "ASI04": "Agentic Supply Chain Vulnerabilities",
+    "ASI05": "Unexpected Code Execution (RCE)",
+    "ASI06": "Memory & Context Poisoning",
+    "ASI07": "Insecure Inter-Agent Communication",
+    "ASI08": "Cascading Failures",
+    "ASI09": "Human-Agent Trust Exploitation",
+    "ASI10": "Rogue Agents",
+}
+
+
+def test_owasp_agentic_titles_match_published_list():
+    assert OWASP_AGENTIC_2026 == PUBLISHED_OWASP_AGENTIC_2026
+
+
+def test_catalogue_uses_no_retired_atlas_ids(catalogue):
+    from agent_threat_model.catalogue.references import ATLAS_RETIRED, ATLAS_TECHNIQUES
+
+    assert not set(ATLAS_RETIRED) & set(ATLAS_TECHNIQUES)
+    for threat in catalogue.threats.values():
+        for atlas in threat.mitre_atlas:
+            assert atlas not in ATLAS_RETIRED, (threat.id, atlas, ATLAS_RETIRED.get(atlas))
+
+
+def test_atlas_renamed_techniques_use_current_names():
+    from agent_threat_model.catalogue.references import ATLAS_TECHNIQUES
+
+    # Renamed upstream in ATLAS 2026.07 ("Reverse Shell" was generalised).
+    assert ATLAS_TECHNIQUES["AML.T0072"] == "Cyber Communication Channel"
+    assert ATLAS_TECHNIQUES["AML.T0115.002"] == "Publish Poisoned AI Artifacts: AI Agent Tools"
+
+
+def test_tool_poisoning_maps_to_current_publish_poisoned_tool_id(catalogue):
+    atlas = catalogue.threats["tool-poisoning"].mitre_atlas
+    assert "AML.T0115.002" in atlas and "AML.T0104" not in atlas

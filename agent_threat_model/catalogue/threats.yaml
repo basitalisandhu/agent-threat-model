@@ -5,9 +5,8 @@
 #                  denial-of-service | elevation-of-privilege
 #   owasp_llm      OWASP Top 10 for LLM Applications 2025 ids (LLM01..LLM10)
 #   owasp_agentic  OWASP Top 10 for Agentic Applications 2026 ids (ASI01..ASI10),
-#                  as listed in the OWASP GenAI Security Project crosswalk repo
-#                  (github.com/GenAI-Security-Project/crosswalk, CROSSREF.md).
-#                  Check against the published PDF; empty where no entry fits.
+#                  as published by the OWASP GenAI Security Project (December
+#                  2025); empty where no entry fits.
 #   mitre_atlas    MITRE ATLAS technique ids (validated against references.py)
 #   applies_when   rule in the DSL described in docs/input-format.md
 #   likelihood     1..5, impact 1..5; inherent severity = likelihood x impact
@@ -68,7 +67,7 @@ threats:
     stride: tampering
     owasp_llm: [LLM01, LLM03]
     owasp_agentic: [ASI04, ASI01]
-    mitre_atlas: [AML.T0110, AML.T0104, AML.T0099]
+    mitre_atlas: [AML.T0110, AML.T0115.002, AML.T0011.002, AML.T0099]
     applies_when: third_party_tool
     likelihood: 3
     impact: 4

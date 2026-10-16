@@ -34,7 +34,7 @@ CI runs the same commands on Python 3.11 and 3.12 and fails if the generated fil
 ## Adding a threat
 
 1. Add an entry to `agent_threat_model/catalogue/threats.yaml`. Required fields: `id` (kebab-case), `title`, `description`, `stride`, `owasp_llm`, `mitre_atlas` (ids must exist in `agent_threat_model/catalogue/references.py`, which mirrors the ATLAS data distribution), `applies_when`, `likelihood`, `impact`, `mitigations`.
-2. Set `owasp_agentic` to the ASI ids (ASI01..ASI10) that fit, from the allowlist in `references.py` (sourced from the OWASP GenAI Security Project crosswalk repository); leave it empty only when no entry fits.
+2. Set `owasp_agentic` to the ASI ids (ASI01..ASI10) that fit, from the allowlist in `references.py` (the published OWASP list, December 2025); leave it empty only when no entry fits.
 3. Every mitigation must be a control id in `controls.yaml`.
 4. If no existing predicate expresses the condition, add one to `agent_threat_model/predicates.py` with the `@predicate` decorator, a one-line docstring (it is rendered into `docs/catalogue.md`) and a test in `tests/test_predicates.py` with a positive and a negative case.
 5. Run `make docs reports check`.

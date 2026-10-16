@@ -4,12 +4,13 @@ OWASP Top 10 for LLM Applications 2025 ids and titles are taken from the
 project's source repository
 (https://github.com/OWASP/www-project-top-10-for-large-language-model-applications).
 OWASP Top 10 for Agentic Applications (2026) ids and titles are taken from the
-OWASP GenAI Security Project crosswalk repository
-(https://github.com/GenAI-Security-Project/crosswalk, file CROSSREF.md); please
-check them against the published PDF. MITRE ATLAS technique ids and names are
-taken from the ATLAS data distribution (https://github.com/mitre-atlas/atlas-data,
-version 5.6.0). Only ids present here may be referenced by threats; the
-catalogue loader rejects anything else.
+published document (OWASP GenAI Security Project, December 2025,
+https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/).
+MITRE ATLAS technique ids and names are taken from the ATLAS data distribution
+(https://github.com/mitre-atlas/atlas-data, dist/v6/ATLAS-2026.09.yaml); sub-technique
+names are written as "Parent: Sub-technique" as on the ATLAS site. Only ids
+present here may be referenced by threats; the catalogue loader rejects anything
+else.
 """
 
 OWASP_LLM_2025: dict[str, str] = {
@@ -32,20 +33,23 @@ OWASP_AGENTIC_2026: dict[str, str] = {
     "ASI02": "Tool Misuse and Exploitation",
     "ASI03": "Identity and Privilege Abuse",
     "ASI04": "Agentic Supply Chain Vulnerabilities",
-    "ASI05": "Unexpected Code Execution",
-    "ASI06": "Memory and Context Poisoning",
+    "ASI05": "Unexpected Code Execution (RCE)",
+    "ASI06": "Memory & Context Poisoning",
     "ASI07": "Insecure Inter-Agent Communication",
-    "ASI08": "Cascading Agent Failures",
+    "ASI08": "Cascading Failures",
     "ASI09": "Human-Agent Trust Exploitation",
     "ASI10": "Rogue Agents",
 }
 
-OWASP_AGENTIC_URL = "https://github.com/GenAI-Security-Project/crosswalk/blob/main/CROSSREF.md"
+OWASP_AGENTIC_URL = (
+    "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/"
+)
 
 ATLAS_TECHNIQUES: dict[str, str] = {
     "AML.T0010": "AI Supply Chain Compromise",
     "AML.T0010.005": "AI Supply Chain Compromise: AI Agent Tool",
     "AML.T0011.000": "User Execution: Unsafe AI Artifacts",
+    "AML.T0011.002": "User Execution: Poisoned AI Agent Tool",
     "AML.T0025": "Exfiltration via Cyber Means",
     "AML.T0029": "Denial of AI Service",
     "AML.T0034": "Cost Harvesting",
@@ -66,7 +70,7 @@ ATLAS_TECHNIQUES: dict[str, str] = {
     "AML.T0069.002": "Discover LLM System Information: System Prompt",
     "AML.T0070": "RAG Poisoning",
     "AML.T0071": "False RAG Entry Injection",
-    "AML.T0072": "Reverse Shell",
+    "AML.T0072": "Cyber Communication Channel",
     "AML.T0073": "Impersonation",
     "AML.T0077": "LLM Response Rendering",
     "AML.T0080.000": "AI Agent Context Poisoning: Memory",
@@ -80,13 +84,21 @@ ATLAS_TECHNIQUES: dict[str, str] = {
     "AML.T0098": "AI Agent Tool Credential Harvesting",
     "AML.T0099": "AI Agent Tool Data Poisoning",
     "AML.T0101": "Data Destruction via AI Agent Tool Invocation",
-    "AML.T0104": "Publish Poisoned AI Agent Tool",
     "AML.T0105": "Escape to Host",
     "AML.T0109": "AI Supply Chain Rug Pull",
     "AML.T0110": "AI Agent Tool Poisoning",
+    "AML.T0115.002": "Publish Poisoned AI Artifacts: AI Agent Tools",
 }
 
 ATLAS_URL = "https://atlas.mitre.org/techniques/"
+
+
+# Ids that MITRE has retired or renumbered. The catalogue must not use them.
+ATLAS_RETIRED: dict[str, str] = {
+    "AML.T0019": "AML.T0115.000",
+    "AML.T0058": "AML.T0115.001",
+    "AML.T0104": "AML.T0115.002",
+}
 
 
 def atlas_url(technique_id: str) -> str:

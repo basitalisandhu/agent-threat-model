@@ -30,11 +30,11 @@ def render() -> str:
     lines.append("")
     lines.append(
         "LLM ids refer to the OWASP Top 10 for LLM Applications 2025. ASI ids refer to the "
-        "OWASP Top 10 for Agentic Applications 2026 as listed in the OWASP GenAI Security "
-        "Project crosswalk repository "
-        "(https://github.com/GenAI-Security-Project/crosswalk, CROSSREF.md); please check "
-        "the mapping against the published PDF and open an issue if an id or title differs. "
-        "MITRE ATLAS ids are validated against the ATLAS data distribution."
+        "OWASP Top 10 for Agentic Applications 2026 as published by the OWASP GenAI Security "
+        "Project in December 2025 "
+        "(https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). "
+        "MITRE ATLAS ids are validated against the ATLAS data distribution, release 2026.09; "
+        "open an issue if an id or title has changed upstream."
     )
     lines.append("")
 

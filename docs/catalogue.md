@@ -4,7 +4,7 @@ Generated from `agent_threat_model/catalogue/threats.yaml` and `controls.yaml` b
 
 30 threats, 29 controls, 21 predicates.
 
-LLM ids refer to the OWASP Top 10 for LLM Applications 2025. ASI ids refer to the OWASP Top 10 for Agentic Applications 2026 as listed in the OWASP GenAI Security Project crosswalk repository (https://github.com/GenAI-Security-Project/crosswalk, CROSSREF.md); please check the mapping against the published PDF and open an issue if an id or title differs. MITRE ATLAS ids are validated against the ATLAS data distribution.
+LLM ids refer to the OWASP Top 10 for LLM Applications 2025. ASI ids refer to the OWASP Top 10 for Agentic Applications 2026 as published by the OWASP GenAI Security Project in December 2025 (https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/). MITRE ATLAS ids are validated against the ATLAS data distribution, release 2026.09; open an issue if an id or title has changed upstream.
 
 ## Threats
 
@@ -12,7 +12,7 @@ LLM ids refer to the OWASP Top 10 for LLM Applications 2025. ASI ids refer to th
 |---|---|---|---|---|---|---|---|
 | [`indirect-prompt-injection`](#indirect-prompt-injection) | Indirect prompt injection via untrusted channel | Tampering | LLM01 | ASI01 | [AML.T0051.001](https://atlas.mitre.org/techniques/AML.T0051.001) | 4 x 4 | `untrusted_channel_in_agent_inputs` |
 | [`direct-prompt-injection`](#direct-prompt-injection) | Direct prompt injection and jailbreak by a user | Tampering | LLM01 | ASI01 | [AML.T0051.000](https://atlas.mitre.org/techniques/AML.T0051.000), [AML.T0054](https://atlas.mitre.org/techniques/AML.T0054) | 4 x 3 | `all(agent_has_input_of_origin(origin=user), agent_has_any_tool)` |
-| [`tool-poisoning`](#tool-poisoning) | Tool poisoning via third-party tool descriptions | Tampering | LLM01, LLM03 | ASI04, ASI01 | [AML.T0110](https://atlas.mitre.org/techniques/AML.T0110), [AML.T0104](https://atlas.mitre.org/techniques/AML.T0104), [AML.T0099](https://atlas.mitre.org/techniques/AML.T0099) | 3 x 4 | `third_party_tool` |
+| [`tool-poisoning`](#tool-poisoning) | Tool poisoning via third-party tool descriptions | Tampering | LLM01, LLM03 | ASI04, ASI01 | [AML.T0110](https://atlas.mitre.org/techniques/AML.T0110), [AML.T0115.002](https://atlas.mitre.org/techniques/AML.T0115.002), [AML.T0011.002](https://atlas.mitre.org/techniques/AML.T0011.002), [AML.T0099](https://atlas.mitre.org/techniques/AML.T0099) | 3 x 4 | `third_party_tool` |
 | [`credential-exfiltration-via-tool-args`](#credential-exfiltration-via-tool-args) | Credential exfiltration through tool call arguments | Information disclosure | LLM02, LLM01 | ASI02, ASI03 | [AML.T0098](https://atlas.mitre.org/techniques/AML.T0098), [AML.T0086](https://atlas.mitre.org/techniques/AML.T0086), [AML.T0083](https://atlas.mitre.org/techniques/AML.T0083) | 3 x 5 | `all(tool_auth_in(auth=static-key), agent_has_tool_kind(kinds=network|messaging|write))` |
 | [`excessive-agency`](#excessive-agency) | Excessive agency on write, exec or payment tools | Elevation of privilege | LLM06 | ASI02, ASI03 | [AML.T0053](https://atlas.mitre.org/techniques/AML.T0053) | 4 x 4 | `tool_kind_without_approval(kinds=write|exec|payment)` |
 | [`ssrf-via-url-tool`](#ssrf-via-url-tool) | Server-side request forgery through URL-accepting tools | Information disclosure | LLM06, LLM05 | ASI02 | [AML.T0053](https://atlas.mitre.org/techniques/AML.T0053) | 3 x 4 | `agent_has_tool_kind(kinds=network)` |
@@ -79,7 +79,7 @@ A third-party tool or tool server ships descriptions, schemas or results that co
 - STRIDE: Tampering
 - OWASP LLM Top 10 (2025): LLM01 Prompt Injection, LLM03 Supply Chain
 - OWASP Agentic Top 10 (2026): ASI04 Agentic Supply Chain Vulnerabilities, ASI01 Agent Goal Hijack
-- MITRE ATLAS: [AML.T0110](https://atlas.mitre.org/techniques/AML.T0110), [AML.T0104](https://atlas.mitre.org/techniques/AML.T0104), [AML.T0099](https://atlas.mitre.org/techniques/AML.T0099)
+- MITRE ATLAS: [AML.T0110](https://atlas.mitre.org/techniques/AML.T0110), [AML.T0115.002](https://atlas.mitre.org/techniques/AML.T0115.002), [AML.T0011.002](https://atlas.mitre.org/techniques/AML.T0011.002), [AML.T0099](https://atlas.mitre.org/techniques/AML.T0099)
 - Inherent severity: likelihood 3 x impact 4 = 12
 - Applies when: `third_party_tool`
 - Mitigations: [`tool-integrity-pinning`](#tool-integrity-pinning), [`input-provenance-tagging`](#input-provenance-tagging), [`least-privilege-tool-scopes`](#least-privilege-tool-scopes), [`approval-gates`](#approval-gates)
@@ -151,7 +151,7 @@ The agent writes what it learns into long-term memory. Content from one interact
 
 - STRIDE: Tampering
 - OWASP LLM Top 10 (2025): LLM01 Prompt Injection, LLM04 Data and Model Poisoning
-- OWASP Agentic Top 10 (2026): ASI06 Memory and Context Poisoning
+- OWASP Agentic Top 10 (2026): ASI06 Memory & Context Poisoning
 - MITRE ATLAS: [AML.T0080.000](https://atlas.mitre.org/techniques/AML.T0080.000)
 - Inherent severity: likelihood 3 x impact 4 = 12
 - Applies when: `agent_memory_is(memory=persistent)`
@@ -165,7 +165,7 @@ An exec tool runs model-chosen commands on a host that holds credentials, source
 
 - STRIDE: Elevation of privilege
 - OWASP LLM Top 10 (2025): LLM06 Excessive Agency, LLM05 Improper Output Handling
-- OWASP Agentic Top 10 (2026): ASI05 Unexpected Code Execution
+- OWASP Agentic Top 10 (2026): ASI05 Unexpected Code Execution (RCE)
 - MITRE ATLAS: [AML.T0050](https://atlas.mitre.org/techniques/AML.T0050), [AML.T0105](https://atlas.mitre.org/techniques/AML.T0105), [AML.T0072](https://atlas.mitre.org/techniques/AML.T0072)
 - Inherent severity: likelihood 4 x impact 5 = 20
 - Applies when: `tool_kind_not_sandboxed(kinds=exec)`
@@ -222,7 +222,7 @@ An agent that acts in the world cannot be stopped quickly. When behaviour goes w
 
 - STRIDE: Elevation of privilege
 - OWASP LLM Top 10 (2025): LLM06 Excessive Agency
-- OWASP Agentic Top 10 (2026): ASI10 Rogue Agents, ASI08 Cascading Agent Failures
+- OWASP Agentic Top 10 (2026): ASI10 Rogue Agents, ASI08 Cascading Failures
 - MITRE ATLAS: -
 - Inherent severity: likelihood 3 x impact 4 = 12
 - Applies when: `all(control_missing(control=kill-switch), agent_autonomy_in(autonomy=act|act-with-approval))`
@@ -236,7 +236,7 @@ The agent retrieves passages from an index. Anyone who can get a document into t
 
 - STRIDE: Tampering
 - OWASP LLM Top 10 (2025): LLM08 Vector and Embedding Weaknesses, LLM04 Data and Model Poisoning, LLM01 Prompt Injection
-- OWASP Agentic Top 10 (2026): ASI06 Memory and Context Poisoning
+- OWASP Agentic Top 10 (2026): ASI06 Memory & Context Poisoning
 - MITRE ATLAS: [AML.T0070](https://atlas.mitre.org/techniques/AML.T0070), [AML.T0071](https://atlas.mitre.org/techniques/AML.T0071), [AML.T0066](https://atlas.mitre.org/techniques/AML.T0066)
 - Inherent severity: likelihood 3 x impact 4 = 12
 - Applies when: `agent_has_channel_kind(kinds=rag)`
@@ -279,7 +279,7 @@ Downstream components render model output in a browser, pass it to a shell or da
 
 - STRIDE: Tampering
 - OWASP LLM Top 10 (2025): LLM05 Improper Output Handling
-- OWASP Agentic Top 10 (2026): ASI05 Unexpected Code Execution
+- OWASP Agentic Top 10 (2026): ASI05 Unexpected Code Execution (RCE)
 - MITRE ATLAS: [AML.T0077](https://atlas.mitre.org/techniques/AML.T0077), [AML.T0067](https://atlas.mitre.org/techniques/AML.T0067)
 - Inherent severity: likelihood 3 x impact 3 = 9
 - Applies when: `any(agent_has_tool_kind(kinds=exec|write), agent_has_channel_kind(kinds=web))`
@@ -309,7 +309,7 @@ Nothing bounds how many tool calls or loop iterations an agent may make. A runaw
 
 - STRIDE: Denial of service
 - OWASP LLM Top 10 (2025): LLM10 Unbounded Consumption
-- OWASP Agentic Top 10 (2026): ASI08 Cascading Agent Failures
+- OWASP Agentic Top 10 (2026): ASI08 Cascading Failures
 - MITRE ATLAS: [AML.T0029](https://atlas.mitre.org/techniques/AML.T0029), [AML.T0034](https://atlas.mitre.org/techniques/AML.T0034)
 - Inherent severity: likelihood 3 x impact 3 = 9
 - Applies when: `all(control_missing(control=rate-limiting), agent_has_any_tool)`
@@ -323,7 +323,7 @@ One agent passes tasks to another. The receiving agent treats the message as an 
 
 - STRIDE: Spoofing
 - OWASP LLM Top 10 (2025): LLM01 Prompt Injection, LLM06 Excessive Agency
-- OWASP Agentic Top 10 (2026): ASI07 Insecure Inter-Agent Communication, ASI08 Cascading Agent Failures
+- OWASP Agentic Top 10 (2026): ASI07 Insecure Inter-Agent Communication, ASI08 Cascading Failures
 - MITRE ATLAS: [AML.T0051.001](https://atlas.mitre.org/techniques/AML.T0051.001), [AML.T0073](https://atlas.mitre.org/techniques/AML.T0073)
 - Inherent severity: likelihood 3 x impact 4 = 12
 - Applies when: `agent_delegates_to_agent`
@@ -351,7 +351,7 @@ The agent can spend money or paid API quota and nothing caps the amount per task
 
 - STRIDE: Denial of service
 - OWASP LLM Top 10 (2025): LLM10 Unbounded Consumption
-- OWASP Agentic Top 10 (2026): ASI08 Cascading Agent Failures
+- OWASP Agentic Top 10 (2026): ASI08 Cascading Failures
 - MITRE ATLAS: [AML.T0034.002](https://atlas.mitre.org/techniques/AML.T0034.002), [AML.T0034](https://atlas.mitre.org/techniques/AML.T0034)
 - Inherent severity: likelihood 3 x impact 4 = 12
 - Applies when: `all(control_missing(control=budget-caps), any(agent_has_tool_kind(kinds=payment|network), agent_autonomy_in(autonomy=act)))`
@@ -424,7 +424,7 @@ The agent keeps memory and serves more than one user. Without strict partitionin
 
 - STRIDE: Information disclosure
 - OWASP LLM Top 10 (2025): LLM02 Sensitive Information Disclosure
-- OWASP Agentic Top 10 (2026): ASI06 Memory and Context Poisoning
+- OWASP Agentic Top 10 (2026): ASI06 Memory & Context Poisoning
 - MITRE ATLAS: [AML.T0057](https://atlas.mitre.org/techniques/AML.T0057), [AML.T0092](https://atlas.mitre.org/techniques/AML.T0092)
 - Inherent severity: likelihood 2 x impact 4 = 8
 - Applies when: `all(agent_memory_is(memory=session|persistent), agent_has_input_of_origin(origin=user))`

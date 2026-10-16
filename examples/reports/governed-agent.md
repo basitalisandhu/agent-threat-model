@@ -185,7 +185,7 @@ Downstream components render model output in a browser, pass it to a shell or da
 |---|---|
 | STRIDE | Tampering |
 | OWASP LLM Top 10 (2025) | LLM05 Improper Output Handling |
-| OWASP Agentic Top 10 (2026) | ASI05 Unexpected Code Execution |
+| OWASP Agentic Top 10 (2026) | ASI05 Unexpected Code Execution (RCE) |
 | MITRE ATLAS | [AML.T0077](https://atlas.mitre.org/techniques/AML.T0077), [AML.T0067](https://atlas.mitre.org/techniques/AML.T0067) |
 | Inherent severity | 9 (Medium): likelihood 3 x impact 3 |
 | Residual severity | 6.6 (Medium), mitigation coverage 33% |
@@ -214,7 +214,7 @@ The agent keeps memory and serves more than one user. Without strict partitionin
 |---|---|
 | STRIDE | Information disclosure |
 | OWASP LLM Top 10 (2025) | LLM02 Sensitive Information Disclosure |
-| OWASP Agentic Top 10 (2026) | ASI06 Memory and Context Poisoning |
+| OWASP Agentic Top 10 (2026) | ASI06 Memory & Context Poisoning |
 | MITRE ATLAS | [AML.T0057](https://atlas.mitre.org/techniques/AML.T0057), [AML.T0092](https://atlas.mitre.org/techniques/AML.T0092) |
 | Inherent severity | 8 (Medium): likelihood 2 x impact 4 |
 | Residual severity | 5.9 (Low), mitigation coverage 33% |

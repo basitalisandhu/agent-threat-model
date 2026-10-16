@@ -136,7 +136,7 @@ An exec tool runs model-chosen commands on a host that holds credentials, source
 |---|---|
 | STRIDE | Elevation of privilege |
 | OWASP LLM Top 10 (2025) | LLM06 Excessive Agency, LLM05 Improper Output Handling |
-| OWASP Agentic Top 10 (2026) | ASI05 Unexpected Code Execution |
+| OWASP Agentic Top 10 (2026) | ASI05 Unexpected Code Execution (RCE) |
 | MITRE ATLAS | [AML.T0050](https://atlas.mitre.org/techniques/AML.T0050), [AML.T0105](https://atlas.mitre.org/techniques/AML.T0105), [AML.T0072](https://atlas.mitre.org/techniques/AML.T0072) |
 | Inherent severity | 20 (Critical): likelihood 4 x impact 5 |
 | Residual severity | 17.7 (High), mitigation coverage 15% |
@@ -259,7 +259,7 @@ The agent can spend money or paid API quota and nothing caps the amount per task
 |---|---|
 | STRIDE | Denial of service |
 | OWASP LLM Top 10 (2025) | LLM10 Unbounded Consumption |
-| OWASP Agentic Top 10 (2026) | ASI08 Cascading Agent Failures |
+| OWASP Agentic Top 10 (2026) | ASI08 Cascading Failures |
 | MITRE ATLAS | [AML.T0034.002](https://atlas.mitre.org/techniques/AML.T0034.002), [AML.T0034](https://atlas.mitre.org/techniques/AML.T0034) |
 | Inherent severity | 12 (High): likelihood 3 x impact 4 |
 | Residual severity | 12 (High), mitigation coverage 0% |
@@ -318,7 +318,7 @@ An agent that acts in the world cannot be stopped quickly. When behaviour goes w
 |---|---|
 | STRIDE | Elevation of privilege |
 | OWASP LLM Top 10 (2025) | LLM06 Excessive Agency |
-| OWASP Agentic Top 10 (2026) | ASI10 Rogue Agents, ASI08 Cascading Agent Failures |
+| OWASP Agentic Top 10 (2026) | ASI10 Rogue Agents, ASI08 Cascading Failures |
 | MITRE ATLAS | - |
 | Inherent severity | 12 (High): likelihood 3 x impact 4 |
 | Residual severity | 12 (High), mitigation coverage 0% |
@@ -371,7 +371,7 @@ A third-party tool or tool server ships descriptions, schemas or results that co
 | STRIDE | Tampering |
 | OWASP LLM Top 10 (2025) | LLM01 Prompt Injection, LLM03 Supply Chain |
 | OWASP Agentic Top 10 (2026) | ASI04 Agentic Supply Chain Vulnerabilities, ASI01 Agent Goal Hijack |
-| MITRE ATLAS | [AML.T0110](https://atlas.mitre.org/techniques/AML.T0110), [AML.T0104](https://atlas.mitre.org/techniques/AML.T0104), [AML.T0099](https://atlas.mitre.org/techniques/AML.T0099) |
+| MITRE ATLAS | [AML.T0110](https://atlas.mitre.org/techniques/AML.T0110), [AML.T0115.002](https://atlas.mitre.org/techniques/AML.T0115.002), [AML.T0011.002](https://atlas.mitre.org/techniques/AML.T0011.002), [AML.T0099](https://atlas.mitre.org/techniques/AML.T0099) |
 | Inherent severity | 12 (High): likelihood 3 x impact 4 |
 | Residual severity | 12 (High), mitigation coverage 0% |
 | Affected elements | `coder`, `package-install` |
@@ -400,7 +400,7 @@ The agent writes what it learns into long-term memory. Content from one interact
 |---|---|
 | STRIDE | Tampering |
 | OWASP LLM Top 10 (2025) | LLM01 Prompt Injection, LLM04 Data and Model Poisoning |
-| OWASP Agentic Top 10 (2026) | ASI06 Memory and Context Poisoning |
+| OWASP Agentic Top 10 (2026) | ASI06 Memory & Context Poisoning |
 | MITRE ATLAS | [AML.T0080.000](https://atlas.mitre.org/techniques/AML.T0080.000) |
 | Inherent severity | 12 (High): likelihood 3 x impact 4 |
 | Residual severity | 10.4 (Medium), mitigation coverage 17% |
@@ -602,7 +602,7 @@ Downstream components render model output in a browser, pass it to a shell or da
 |---|---|
 | STRIDE | Tampering |
 | OWASP LLM Top 10 (2025) | LLM05 Improper Output Handling |
-| OWASP Agentic Top 10 (2026) | ASI05 Unexpected Code Execution |
+| OWASP Agentic Top 10 (2026) | ASI05 Unexpected Code Execution (RCE) |
 | MITRE ATLAS | [AML.T0077](https://atlas.mitre.org/techniques/AML.T0077), [AML.T0067](https://atlas.mitre.org/techniques/AML.T0067) |
 | Inherent severity | 9 (Medium): likelihood 3 x impact 3 |
 | Residual severity | 9 (Medium), mitigation coverage 0% |
@@ -660,7 +660,7 @@ Nothing bounds how many tool calls or loop iterations an agent may make. A runaw
 |---|---|
 | STRIDE | Denial of service |
 | OWASP LLM Top 10 (2025) | LLM10 Unbounded Consumption |
-| OWASP Agentic Top 10 (2026) | ASI08 Cascading Agent Failures |
+| OWASP Agentic Top 10 (2026) | ASI08 Cascading Failures |
 | MITRE ATLAS | [AML.T0029](https://atlas.mitre.org/techniques/AML.T0029), [AML.T0034](https://atlas.mitre.org/techniques/AML.T0034) |
 | Inherent severity | 9 (Medium): likelihood 3 x impact 3 |
 | Residual severity | 9 (Medium), mitigation coverage 0% |

@@ -209,7 +209,7 @@
               },
               "help": {
                 "text": "An agent that acts in the world cannot be stopped quickly. When behaviour goes wrong the only options are to find the process and the keys by hand while actions keep happening.",
-                "markdown": "**No kill switch or credential revocation**\n\nAn agent that acts in the world cannot be stopped quickly. When behaviour goes wrong the only options are to find the process and the keys by hand while actions keep happening.\n\nSTRIDE: Elevation of privilege\nOWASP LLM Top 10 (2025): LLM06 Excessive Agency\nOWASP Top 10 for Agentic Applications (2026): ASI10 Rogue Agents, ASI08 Cascading Agent Failures\n\nMitigations: kill-switch, brokered-credentials, incident-response-playbook"
+                "markdown": "**No kill switch or credential revocation**\n\nAn agent that acts in the world cannot be stopped quickly. When behaviour goes wrong the only options are to find the process and the keys by hand while actions keep happening.\n\nSTRIDE: Elevation of privilege\nOWASP LLM Top 10 (2025): LLM06 Excessive Agency\nOWASP Top 10 for Agentic Applications (2026): ASI10 Rogue Agents, ASI08 Cascading Failures\n\nMitigations: kill-switch, brokered-credentials, incident-response-playbook"
               },
               "helpUri": "https://genai.owasp.org/llm-top-10/",
               "defaultConfiguration": {
@@ -333,7 +333,7 @@
               },
               "help": {
                 "text": "The agent can spend money or paid API quota and nothing caps the amount per task. A loop, an injection or a malicious user turns the agent into a bill.",
-                "markdown": "**Denial of wallet**\n\nThe agent can spend money or paid API quota and nothing caps the amount per task. A loop, an injection or a malicious user turns the agent into a bill.\n\nSTRIDE: Denial of service\nOWASP LLM Top 10 (2025): LLM10 Unbounded Consumption\nOWASP Top 10 for Agentic Applications (2026): ASI08 Cascading Agent Failures\nMITRE ATLAS: [AML.T0034.002](https://atlas.mitre.org/techniques/AML.T0034.002), [AML.T0034](https://atlas.mitre.org/techniques/AML.T0034)\n\nMitigations: approval-gates, budget-caps, rate-limiting, behavioural-monitoring"
+                "markdown": "**Denial of wallet**\n\nThe agent can spend money or paid API quota and nothing caps the amount per task. A loop, an injection or a malicious user turns the agent into a bill.\n\nSTRIDE: Denial of service\nOWASP LLM Top 10 (2025): LLM10 Unbounded Consumption\nOWASP Top 10 for Agentic Applications (2026): ASI08 Cascading Failures\nMITRE ATLAS: [AML.T0034.002](https://atlas.mitre.org/techniques/AML.T0034.002), [AML.T0034](https://atlas.mitre.org/techniques/AML.T0034)\n\nMitigations: approval-gates, budget-caps, rate-limiting, behavioural-monitoring"
               },
               "helpUri": "https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM10_UnboundedConsumption.md",
               "defaultConfiguration": {
@@ -364,7 +364,7 @@
               },
               "help": {
                 "text": "Downstream components render model output in a browser, pass it to a shell or database, or execute it. Injected or malformed output becomes cross-site scripting, command injection or unintended writes.",
-                "markdown": "**Model output consumed without validation**\n\nDownstream components render model output in a browser, pass it to a shell or database, or execute it. Injected or malformed output becomes cross-site scripting, command injection or unintended writes.\n\nSTRIDE: Tampering\nOWASP LLM Top 10 (2025): LLM05 Improper Output Handling\nOWASP Top 10 for Agentic Applications (2026): ASI05 Unexpected Code Execution\nMITRE ATLAS: [AML.T0077](https://atlas.mitre.org/techniques/AML.T0077), [AML.T0067](https://atlas.mitre.org/techniques/AML.T0067)\n\nMitigations: output-encoding, argument-validation, sandboxed-execution"
+                "markdown": "**Model output consumed without validation**\n\nDownstream components render model output in a browser, pass it to a shell or database, or execute it. Injected or malformed output becomes cross-site scripting, command injection or unintended writes.\n\nSTRIDE: Tampering\nOWASP LLM Top 10 (2025): LLM05 Improper Output Handling\nOWASP Top 10 for Agentic Applications (2026): ASI05 Unexpected Code Execution (RCE)\nMITRE ATLAS: [AML.T0077](https://atlas.mitre.org/techniques/AML.T0077), [AML.T0067](https://atlas.mitre.org/techniques/AML.T0067)\n\nMitigations: output-encoding, argument-validation, sandboxed-execution"
               },
               "helpUri": "https://github.com/OWASP/www-project-top-10-for-large-language-model-applications/blob/main/2_0_vulns/LLM05_ImproperOutputHandling.md",
               "defaultConfiguration": {
@@ -426,7 +426,7 @@
               },
               "help": {
                 "text": "Nothing bounds how many tool calls or loop iterations an agent may make. A runaway loop or an attacker-driven burst exhausts quotas, floods downstream systems and amplifies every other threat.",
-                "markdown": "**No rate limits on tool calls**\n\nNothing bounds how many tool calls or loop iterations an agent may make. A runaway loop or an attacker-driven burst exhausts quotas, floods downstream systems and amplifies every other threat.\n\nSTRIDE: Denial of service\nOWASP LLM Top 10 (2025): LLM10 Unbounded Consumption\nOWASP Top 10 for Agentic Applications (2026): ASI08 Cascading Agent Failures\nMITRE ATLAS: [AML.T0029](https://atlas.mitre.org/techniques/AML.T0029), [AML.T0034](https://atlas.mitre.org/techniques/AML.T0034)\n\nMitigations: rate-limiting, budget-caps, behavioural-monitoring"
+                "markdown": "**No rate limits on tool calls**\n\nNothing bounds how many tool calls or loop iterations an agent may make. A runaway loop or an attacker-driven burst exhausts quotas, floods downstream systems and amplifies every other threat.\n\nSTRIDE: Denial of service\nOWASP LLM Top 10 (2025): LLM10 Unbounded Consumption\nOWASP Top 10 for Agentic Applications (2026): ASI08 Cascading Failures\nMITRE ATLAS: [AML.T0029](https://atlas.mitre.org/techniques/AML.T0029), [AML.T0034](https://atlas.mitre.org/techniques/AML.T0034)\n\nMitigations: rate-limiting, budget-caps, behavioural-monitoring"
               },
               "helpUri": "https://genai.owasp.org/llm-top-10/",
               "defaultConfiguration": {
@@ -520,7 +520,7 @@
               },
               "help": {
                 "text": "The agent keeps memory and serves more than one user. Without strict partitioning, one user's data or instructions surface in another user's session.",
-                "markdown": "**Memory leaks between users or sessions**\n\nThe agent keeps memory and serves more than one user. Without strict partitioning, one user's data or instructions surface in another user's session.\n\nSTRIDE: Information disclosure\nOWASP LLM Top 10 (2025): LLM02 Sensitive Information Disclosure\nOWASP Top 10 for Agentic Applications (2026): ASI06 Memory and Context Poisoning\nMITRE ATLAS: [AML.T0057](https://atlas.mitre.org/techniques/AML.T0057), [AML.T0092](https://atlas.mitre.org/techniques/AML.T0092)\n\nMitigations: session-isolation, per-user-authorisation, memory-write-validation"
+                "markdown": "**Memory leaks between users or sessions**\n\nThe agent keeps memory and serves more than one user. Without strict partitioning, one user's data or instructions surface in another user's session.\n\nSTRIDE: Information disclosure\nOWASP LLM Top 10 (2025): LLM02 Sensitive Information Disclosure\nOWASP Top 10 for Agentic Applications (2026): ASI06 Memory & Context Poisoning\nMITRE ATLAS: [AML.T0057](https://atlas.mitre.org/techniques/AML.T0057), [AML.T0092](https://atlas.mitre.org/techniques/AML.T0092)\n\nMitigations: session-isolation, per-user-authorisation, memory-write-validation"
               },
               "helpUri": "https://genai.owasp.org/llm-top-10/",
               "defaultConfiguration": {
