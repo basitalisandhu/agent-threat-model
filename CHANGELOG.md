@@ -6,14 +6,26 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-16
+
+### Added
+
+- `atm analyse --format csv` writes the threat register as CSV, one row per applicable threat in table order, with list columns joined by `;`, for risk registers and spreadsheets (#7). `make reports` also writes `examples/reports/*.csv`.
+
+### Fixed
+
+- MITRE ATLAS references match ATLAS release 2026.09: `AML.T0104` (retired) is now `AML.T0115.002` "Publish Poisoned AI Artifacts: AI Agent Tools", `tool-poisoning` also cites `AML.T0011.002` "User Execution: Poisoned AI Agent Tool", and `AML.T0072` is named "Cyber Communication Channel" (#21).
+- OWASP Top 10 for Agentic Applications 2026 titles match the published document: ASI05 "Unexpected Code Execution (RCE)", ASI06 "Memory & Context Poisoning", ASI08 "Cascading Failures" (#21).
+
+### Changed
+
+- uv development dependencies moved to `[dependency-groups]`, which silences a deprecation warning on every `uv run` (#21).
+
 ## [0.2.0] - 2026-10-09
 
 ### Added
 
 - `atm validate` accepts several files, reports one line per file and exits 2 if any fail; single-file diagnostics retain their parameter hint.
-
-### Added
-
 - `atm diagram system.yaml` prints the Mermaid system diagram, or writes it with `-o FILE` (#14, thanks @NurSenaKaraduman).
 
 ## [0.1.1] - 2026-10-06
