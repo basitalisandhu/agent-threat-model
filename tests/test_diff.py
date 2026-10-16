@@ -1,3 +1,11 @@
+import csv
+import io
+import json
+
+import pytest
+from typer.testing import CliRunner
+
+from agent_threat_model.cli import app
 from agent_threat_model.diff import diff_analyses
 from agent_threat_model.engine import analyse
 from agent_threat_model.loader import load_system
@@ -62,3 +70,70 @@ def test_example_diff_finance_to_governed(example_path):
     assert {"static-long-lived-credentials", "missing-audit-trail"} <= {
         f.threat_id for f in diff.removed
     }
+
+
+CSV_HEADER = [
+    "change",
+    "id",
+    "title",
+    "old_residual",
+    "new_residual",
+    "old_severity",
+    "new_severity",
+]
+
+
+@pytest.mark.parametrize(
+    ("old", "new"),
+    [("finance-agent", "governed-agent"), ("governed-agent", "finance-agent")],
+)
+def test_diff_csv_matches_json(example_path, old, new):
+    runner = CliRunner()
+    args = ["diff", str(example_path(old)), str(example_path(new))]
+    result = runner.invoke(app, [*args, "--format", "csv"])
+    json_result = runner.invoke(app, [*args, "--format", "json"])
+    assert result.exit_code == json_result.exit_code == 0
+    assert result.stdout.splitlines()[0] == ",".join(CSV_HEADER)
+    reader = csv.DictReader(io.StringIO(result.stdout))
+    rows = list(reader)
+    assert reader.fieldnames == CSV_HEADER
+    payload = json.loads(json_result.stdout)
+    assert payload["removed" if old == "finance-agent" else "added"]
+    expected = []
+    for change, key in [("added", "added"), ("removed", "removed")]:
+        for finding in payload[key]:
+            expected.append(
+                {
+                    "change": change,
+                    "id": finding["threat_id"],
+                    "title": finding["title"],
+                    "old_residual": f"{finding['residual']:g}" if change == "removed" else "",
+                    "new_residual": f"{finding['residual']:g}" if change == "added" else "",
+                    "old_severity": finding["residual_band"] if change == "removed" else "",
+                    "new_severity": finding["residual_band"] if change == "added" else "",
+                }
+            )
+    assert payload["changed"]
+    for finding in payload["changed"]:
+        expected.append(
+            {
+                "change": "rescored",
+                "id": finding["threat_id"],
+                "title": finding["title"],
+                "old_residual": f"{finding['old_residual']:g}",
+                "new_residual": f"{finding['new_residual']:g}",
+                "old_severity": finding["old_band"],
+                "new_severity": finding["new_band"],
+            }
+        )
+    assert rows == expected
+
+
+def test_diff_csv_identical_systems_writes_header_only(example_path, tmp_path):
+    output = tmp_path / "diff.csv"
+    path = str(example_path("finance-agent"))
+    result = CliRunner().invoke(
+        app, ["diff", path, path, "--format", "csv", "--output", str(output)]
+    )
+    assert result.exit_code == 0
+    assert list(csv.reader(io.StringIO(output.read_text()))) == [CSV_HEADER]

@@ -129,7 +129,7 @@ Both `atm` and `agent-threat-model` are installed as commands.
 | `atm diagram system.yaml` | Print a Mermaid system diagram; `-o FILE` to write it to a file. |
 | `atm init [path]` | Write the support-bot example to start from. |
 | `atm catalogue [threats\|controls]` | List the bundled catalogue; `--format markdown\|json`. |
-| `atm diff old.yaml new.yaml` | Threats added, removed and re-scored between two descriptions; `--fail-on-regression`. |
+| `atm diff old.yaml new.yaml` | Threats added, removed and re-scored between two descriptions; `--format table/markdown/json/csv`, `--fail-on-regression`. |
 | `atm schema` | Print the JSON Schema for system files. |
 
 ## Input format

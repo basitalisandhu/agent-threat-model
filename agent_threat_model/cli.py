@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import csv
+import io
 import json
 import sys
 from enum import StrEnum
@@ -61,6 +63,13 @@ class TextFormat(StrEnum):
     table = "table"
     markdown = "markdown"
     json = "json"
+
+
+class DiffFormat(StrEnum):
+    table = "table"
+    markdown = "markdown"
+    json = "json"
+    csv = "csv"
 
 
 def _version_callback(value: bool) -> None:
@@ -373,13 +382,40 @@ def _diff_json(diff: Diff) -> str:
     return json.dumps(payload, indent=2) + "\n"
 
 
+def _diff_csv(diff: Diff) -> str:
+    buffer = io.StringIO()
+    writer = csv.writer(buffer, lineterminator="\n")
+    writer.writerow(
+        ("change", "id", "title", "old_residual", "new_residual", "old_severity", "new_severity")
+    )
+    for f in diff.added:
+        writer.writerow(("added", f.threat_id, f.title, "", f"{f.residual:g}", "", f.residual_band))
+    for f in diff.removed:
+        writer.writerow(
+            ("removed", f.threat_id, f.title, f"{f.residual:g}", "", f.residual_band, "")
+        )
+    for c in diff.changed:
+        writer.writerow(
+            (
+                "rescored",
+                c.threat_id,
+                c.title,
+                f"{c.old_residual:g}",
+                f"{c.new_residual:g}",
+                c.old_band,
+                c.new_band,
+            )
+        )
+    return buffer.getvalue()
+
+
 @app.command("diff")
 def diff_command(
     old: Annotated[Path, typer.Argument(exists=True, dir_okay=False, help="Previous system YAML.")],
     new: Annotated[Path, typer.Argument(exists=True, dir_okay=False, help="Current system YAML.")],
     fmt: Annotated[
-        TextFormat, typer.Option("--format", "-f", help="Output format.", case_sensitive=False)
-    ] = TextFormat.table,
+        DiffFormat, typer.Option("--format", "-f", help="Output format.", case_sensitive=False)
+    ] = DiffFormat.table,
     output: Annotated[Path | None, typer.Option("--output", "-o")] = None,
     fail_on_regression: Annotated[
         bool,
@@ -391,9 +427,10 @@ def diff_command(
     """Show what changed in the threat register between two system descriptions."""
     diff = diff_analyses(_load(old), _load(new))
     renderers = {
-        TextFormat.table: _diff_text,
-        TextFormat.markdown: _diff_markdown,
-        TextFormat.json: _diff_json,
+        DiffFormat.table: _diff_text,
+        DiffFormat.markdown: _diff_markdown,
+        DiffFormat.json: _diff_json,
+        DiffFormat.csv: _diff_csv,
     }
     _write(renderers[fmt](diff), output)
     if fail_on_regression and (diff.added or diff.score_delta > 0):
