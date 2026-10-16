@@ -30,7 +30,7 @@ docs: schema
 
 reports:
 	@for name in support-bot coding-agent finance-agent governed-agent research-agent; do \
-	  for fmt in markdown json sarif html; do \
+	  for fmt in markdown json sarif html csv; do \
 	    case $$fmt in markdown) ext=md ;; *) ext=$$fmt ;; esac; \
 	    $(PY) atm analyse examples/$$name.yaml --format $$fmt --output examples/reports/$$name.$$ext; \
 	  done; \

@@ -63,7 +63,7 @@ Highest-leverage missing controls:
 Then write the full report:
 
 ```bash
-atm analyse system.yaml --format markdown -o threat-model.md   # also: json, sarif, html
+atm analyse system.yaml --format markdown -o threat-model.md   # also: json, sarif, html, csv
 ```
 
 The same accounts-payable agent with and without governance controls (brokered credentials, approvals enforced outside the model, audit log, kill switch, budget caps):
@@ -124,7 +124,7 @@ Both `atm` and `agent-threat-model` are installed as commands.
 
 | Command | What it does |
 |---|---|
-| `atm analyse system.yaml` | Ranked table in the terminal (rich colours when available, plain text otherwise). `--format markdown\|json\|sarif\|html`, `-o FILE`, `--fail-on high` to break a build. `analyze` works too. |
+| `atm analyse system.yaml` | Ranked table in the terminal (rich colours when available, plain text otherwise). `--format markdown\|json\|sarif\|html\|csv`, `-o FILE`, `--fail-on high` to break a build. `analyze` works too. |
 | `atm validate system.yaml [other.yaml ...]` | Schema and cross-reference check, including control ids. Checks every file; exit code 2 if any file fails. |
 | `atm diagram system.yaml` | Print a Mermaid system diagram; `-o FILE` to write it to a file. |
 | `atm init [path]` | Write the support-bot example to start from. |

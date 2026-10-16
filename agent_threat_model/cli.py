@@ -40,6 +40,7 @@ class Format(StrEnum):
     json = "json"
     sarif = "sarif"
     html = "html"
+    csv = "csv"
 
 
 class FailOn(StrEnum):

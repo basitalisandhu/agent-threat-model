@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 
 from agent_threat_model.engine import Analysis
+from agent_threat_model.reporters.csvout import render_csv
 from agent_threat_model.reporters.html import render_html
 from agent_threat_model.reporters.jsonout import render_json
 from agent_threat_model.reporters.markdown import render_markdown
@@ -17,6 +18,7 @@ RENDERERS: dict[str, Callable[[Analysis], str]] = {
     "json": render_json,
     "sarif": render_sarif,
     "html": render_html,
+    "csv": render_csv,
 }
 
 FORMATS = tuple(RENDERERS)
@@ -34,6 +36,7 @@ __all__ = [
     "FORMATS",
     "RENDERERS",
     "render",
+    "render_csv",
     "render_html",
     "render_json",
     "render_markdown",

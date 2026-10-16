@@ -114,3 +114,35 @@ def test_mermaid_marks_untrusted_channels_red_and_trusted_dashed(example_path):
     assert "linkStyle" in text and "#c0392b" in text
     assert 'subgraph stores["Data stores"]' in text
     assert "t_lookup_customer --> s_crm" in text
+
+
+def test_csv_report_has_header_and_one_row_per_threat(example_path):
+    import csv
+    import io
+
+    from agent_threat_model.reporters.csvout import CSV_COLUMNS
+
+    analysis = _support_bot(example_path)
+    text = render(analysis, "csv")
+    rows = list(csv.reader(io.StringIO(text)))
+    assert tuple(rows[0]) == CSV_COLUMNS
+    assert rows[0][:3] == ["rank", "id", "title"]
+    assert len(rows) - 1 == len(analysis.findings)
+    assert [r[1] for r in rows[1:]] == [f.threat_id for f in analysis.findings]
+    first = dict(zip(rows[0], rows[1], strict=True))
+    assert first["rank"] == "1"
+    assert first["affected"] == ";".join(analysis.findings[0].elements)
+    assert render(_support_bot(example_path), "csv") == text
+
+
+def test_csv_report_via_cli(example_path, tmp_path):
+    from typer.testing import CliRunner
+
+    from agent_threat_model.cli import app
+
+    out = tmp_path / "register.csv"
+    result = CliRunner().invoke(
+        app, ["analyse", str(example_path("support-bot")), "--format", "csv", "-o", str(out)]
+    )
+    assert result.exit_code == 0, result.output
+    assert out.read_text(encoding="utf-8").startswith("rank,id,title,stride,")
