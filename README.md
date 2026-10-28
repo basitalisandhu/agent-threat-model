@@ -79,8 +79,6 @@ Removed threats (10)
 ```
 
 Generated reports for every example are committed under [`examples/reports/`](examples/reports/).
-For downstream integrations, [the JSON report contract](docs/json-report.md)
-documents the version, fields, score meanings and a CLI-checked example.
 Alongside the support, coding and finance examples, try
 [`examples/research-agent.yaml`](examples/research-agent.yaml) to model a browsing agent with
 untrusted web input, a network tool, persistent memory and a writable research-notes store.
@@ -126,7 +124,7 @@ Both `atm` and `agent-threat-model` are installed as commands.
 
 | Command | What it does |
 |---|---|
-| `atm analyse system.yaml` | Ranked table in the terminal (rich colours when available, plain text otherwise). `--format markdown\|json\|sarif\|html\|csv`, `-o FILE`, `--fail-on high` to break a build. `analyze` works too. |
+| `atm analyse system.yaml` | Ranked table in the terminal (rich colours when available, plain text otherwise). `--format markdown\|json\|sarif\|html\|csv`, `-o FILE`, `--fail-on high` to break a build. `analyze` works too. JSON output contract: [docs/report-format.md](docs/report-format.md). |
 | `atm validate system.yaml [other.yaml ...]` | Schema and cross-reference check, including control ids. Checks every file; exit code 2 if any file fails. |
 | `atm diagram system.yaml` | Print a Mermaid system diagram; `-o FILE` to write it to a file. |
 | `atm init [path]` | Write the support-bot example to start from. |

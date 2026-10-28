@@ -92,14 +92,16 @@ Run this command from the repository root to get the complete report:
 atm analyse examples/support-bot.yaml --format json -o support-bot.json
 ```
 
-This is an excerpt of that report, not a complete report: `tool`, `source` and
-`system` are omitted and only the first finding and control are shown. The
-summary still describes all 21 findings, and `tests/test_json_report_doc.py`
-checks these values against the actual CLI output.
+This is an excerpt of that report, not a complete report: `system` is omitted
+and only the first finding and control are shown. The summary still describes
+all 21 findings, and `tests/test_json_report_doc.py` checks these values
+against the actual CLI output.
 
 ```json
 {
   "report_schema_version": "1",
+  "tool": {"name": "agent-threat-model", "version": "0.3.0"},
+  "source": "examples/support-bot.yaml",
   "summary": {
     "findings": 21,
     "residual_bands": {"critical": 0, "high": 14, "medium": 7, "low": 0},
