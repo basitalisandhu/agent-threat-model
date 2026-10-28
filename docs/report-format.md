@@ -100,7 +100,7 @@ against the actual CLI output.
 ```json
 {
   "report_schema_version": "1",
-  "tool": {"name": "agent-threat-model", "version": "0.3.0"},
+  "tool": {"name": "agent-threat-model", "version": "0.4.0"},
   "source": "examples/support-bot.yaml",
   "summary": {
     "findings": 21,
