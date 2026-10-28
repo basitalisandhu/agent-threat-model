@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -51,16 +52,39 @@ def system_from_dict(
     return system
 
 
-def load_system(path: Path | str, catalogue: Catalogue | None = None) -> AgentSystem:
-    """Read a YAML file and return a validated :class:`AgentSystem`."""
-    path = Path(path)
-    source = str(path)
+STDIN = "-"
+
+
+def read_source(path: Path | str) -> tuple[str, str]:
+    """Return ``(text, source name)`` for a file, or for standard input when ``path`` is ``-``."""
+    from_stdin = str(path) == STDIN
+    source = "<stdin>" if from_stdin else str(path)
     try:
-        text = path.read_text(encoding="utf-8")
+        data = sys.stdin.buffer.read() if from_stdin else Path(path).read_bytes()
     except OSError as error:
         raise SystemLoadError(source, [f"cannot read file: {error.strerror}"]) from error
+    try:
+        return data.decode("utf-8"), source
+    except UnicodeDecodeError as error:
+        raise SystemLoadError(
+            source, [f"not UTF-8 text (byte {error.start}); save the file as UTF-8"]
+        ) from error
+
+
+def load_system(path: Path | str, catalogue: Catalogue | None = None) -> AgentSystem:
+    """Read a YAML file, or standard input for ``-``, and return an :class:`AgentSystem`."""
+    text, source = read_source(path)
+    return system_from_text(text, source, catalogue)
+
+
+def system_from_text(
+    text: str, source: str = "<text>", catalogue: Catalogue | None = None
+) -> AgentSystem:
+    """Parse YAML text and return a validated :class:`AgentSystem`."""
     try:
         data = yaml.safe_load(text)
     except yaml.YAMLError as error:
         raise SystemLoadError(source, [f"invalid YAML: {error}"]) from error
+    except RecursionError as error:
+        raise SystemLoadError(source, ["invalid YAML: nested too deeply to read"]) from error
     return system_from_dict(data, source, catalogue)

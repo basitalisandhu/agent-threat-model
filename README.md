@@ -34,7 +34,7 @@ atm init system.yaml                 # writes the support-bot example
 atm analyse system.yaml
 ```
 
-Output for [`examples/support-bot.yaml`](examples/support-bot.yaml), a retrieval-backed support chatbot that reads inbound email and can send email (excerpt):
+Output for [`examples/support-bot.yaml`](examples/support-bot.yaml), a retrieval-backed support chatbot that reads inbound email and can send email (excerpt, as `atm analyse system.yaml --plain` prints it; without `--plain` the same table is drawn with borders, and with colours in a terminal):
 
 ```text
 Threat model: Customer support assistant
@@ -132,6 +132,8 @@ Both `atm` and `agent-threat-model` are installed as commands.
 | `atm diff old.yaml new.yaml` | Threats added, removed and re-scored between two descriptions; `--format table/markdown/json/csv`, `--fail-on-regression`. |
 | `atm schema` | Print the JSON Schema for system files. |
 
+`analyse`, `validate`, `diagram` and `diff` read the system description from standard input when the file is `-`, so a generated YAML can be piped straight in: `generate-system | atm analyse - --fail-on high`. The report names the source `<stdin>`; for SARIF that you upload to code scanning, analyse the committed file instead, so alerts point at a path in the repository.
+
 ## Input format
 
 A system file has seven top-level keys. Full reference: [docs/input-format.md](docs/input-format.md); JSON Schema: [schema/system.schema.json](schema/system.schema.json).
@@ -226,6 +228,20 @@ jobs:
 
 Inputs: `system-file`, `sarif-file`, `markdown-file`, `fail-on`, `upload` (set `false` to skip the code scanning upload), `python-version`, `version` (PyPI version to install; by default the action installs itself from the checked-out tag). Outputs: `sarif-file`, `residual-risk-score`, `rating`. See [action.yml](action.yml).
 
+## Troubleshooting
+
+| Message | Cause and fix |
+|---|---|
+| `invalid: system.yaml` then `- control: Extra inputs are not permitted` | A key the schema does not know, usually a typo (`control` for `controls`). Unknown keys are errors on purpose; `atm schema` prints every allowed key. |
+| `- principals.0.trust: Input should be 'low', 'medium' or 'high'` | A value outside the allowed list. The path tells you where: the first principal's `trust`. |
+| `- <root>: agent 'support-bot' tool 'search-kbx' is not a tool id` | An agent lists a tool, channel or store id that is not declared. Declare it under `tools:` (or `channels:`, `data_stores:`) or fix the spelling. |
+| `- controls: unknown control id 'output-encode' (see 'atm catalogue controls')` | Control ids come from the catalogue. Run `atm catalogue controls` and use one of the listed ids. |
+| `- invalid YAML: ... found character '\t' that cannot start any token` | A tab used for indentation. YAML needs spaces. |
+| `- not UTF-8 text (byte 0); save the file as UTF-8` | The file was saved as UTF-16 or another encoding, as some Windows editors and PowerShell `>` do. Save it as UTF-8. |
+| `Invalid value for 'file': File 'system.yaml' does not exist.` | Run `atm init system.yaml` first, or pass the right path. `-` reads standard input. |
+| `fail-on high: at least one applicable threat is high or worse` (exit 1) | Not an error: `--fail-on` found a threat at or above that residual severity. Add the missing controls the report lists, or raise the threshold. |
+| The table has box borders, not the plain layout shown above | Output to a pipe or file is drawn with borders; `--plain` prints the plain layout, and `--format markdown` or `csv` suit documents and spreadsheets. |
+
 ## Frequently asked questions
 
 **How do I threat-model an AI agent?**
@@ -235,7 +251,7 @@ Write down what the system is made of and apply a catalogue of known agent threa
 Every applicable threat in the report carries its STRIDE category, OWASP Top 10 for LLM Applications 2025 ids, OWASP Top 10 for Agentic Applications 2026 ids (ASI01 to ASI10) and MITRE ATLAS technique ids, validated against the ATLAS data distribution (release 2026.09). `atm catalogue threats --format markdown` lists the full mapping, and [docs/catalogue.md](docs/catalogue.md) documents each threat, when it applies and which controls mitigate it. One threat (`system-prompt-leakage`) is deliberately left unmapped.
 
 **Is there a model in the loop, and is the output reproducible?**
-No model, no network, no randomness. Rules are a small DSL over named predicates evaluated in Python without `eval`, scoring is arithmetic (inherent severity is likelihood times impact, each control in place reduces the residual in proportion to its type, to a floor of 20% of inherent), and the same input always gives the same report, which is why it runs in CI and why 108 tests can pin the catalogue, rules, reports, diff and CLI. Treat the output as the starting checklist for a human review, not as a judgement about your implementation: it reasons only about what you declare.
+No model, no network, no randomness. Rules are a small DSL over named predicates evaluated in Python without `eval`, scoring is arithmetic (inherent severity is likelihood times impact, each control in place reduces the residual in proportion to its type, to a floor of 20% of inherent), and the same input always gives the same report, which is why it runs in CI and why the test suite can pin the catalogue, rules, reports, diff and CLI. Treat the output as the starting checklist for a human review, not as a judgement about your implementation: it reasons only about what you declare.
 
 **How do I get the findings into GitHub code scanning or fail a build?**
 `atm analyse system.yaml --format sarif -o agent-threat-model.sarif --fail-on critical` writes valid SARIF 2.1.0 and exits non-zero at the severity you choose; the GitHub Action `basitalisandhu/agent-threat-model@v0.3.0` runs that and uploads the SARIF so each applicable threat appears as a code scanning alert pointing at the element that triggers it. `atm diff old.yaml new.yaml --fail-on-regression` fails when a change adds threats or raises the residual score, so a pull request that removes an approval gate is caught.

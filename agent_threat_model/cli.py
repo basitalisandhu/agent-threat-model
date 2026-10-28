@@ -17,7 +17,13 @@ from agent_threat_model.catalogue import EFFORT_ORDER, load_catalogue
 from agent_threat_model.diagram import mermaid
 from agent_threat_model.diff import Diff, diff_analyses
 from agent_threat_model.engine import BAND_ORDER, Analysis, analyse
-from agent_threat_model.loader import SystemLoadError, load_system
+from agent_threat_model.loader import (
+    STDIN,
+    SystemLoadError,
+    load_system,
+    read_source,
+    system_from_text,
+)
 from agent_threat_model.reporters import render
 from agent_threat_model.reporters.table import HAVE_RICH, print_rich
 from agent_threat_model.schema import json_schema
@@ -94,16 +100,25 @@ def main_callback(
     """Deterministic STRIDE and OWASP threat modelling for LLM-agent systems."""
 
 
+def _file_or_stdin(value: Path | None) -> Path | None:
+    """Argument check: an existing file, or ``-`` for standard input."""
+    if value is None or str(value) == STDIN or value.is_file():
+        return value
+    what = "is a directory" if value.is_dir() else "does not exist"
+    raise typer.BadParameter(f"File '{value}' {what}.")
+
+
 def _load(path: Path) -> Analysis:
     try:
-        system = load_system(path)
+        text, source = read_source(path)
+        system = system_from_text(text, source)
     except SystemLoadError as error:
         typer.echo(f"error: {error.source} is not a valid system description", err=True)
         for problem in error.problems:
             typer.echo(f"  - {problem}", err=True)
         raise typer.Exit(EXIT_INPUT) from error
-    analysis = analyse(system, source=str(path))
-    analysis.source_text = path.read_text(encoding="utf-8")
+    analysis = analyse(system, source=source)
+    analysis.source_text = text
     return analysis
 
 
@@ -111,8 +126,12 @@ def _write(text: str, output: Path | None) -> None:
     if output is None:
         sys.stdout.write(text)
         return
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(text, encoding="utf-8")
+    try:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(text, encoding="utf-8")
+    except OSError as error:
+        typer.echo(f"error: cannot write {output}: {error.strerror or error}", err=True)
+        raise typer.Exit(EXIT_INPUT) from error
     typer.echo(f"wrote {output}", err=True)
 
 
@@ -126,7 +145,10 @@ def _exceeds(analysis: Analysis, fail_on: FailOn) -> bool:
 @app.command("analyse")
 @app.command("analyze", hidden=True)
 def analyse_command(
-    file: Annotated[Path, typer.Argument(exists=True, dir_okay=False, help="System YAML file.")],
+    file: Annotated[
+        Path,
+        typer.Argument(callback=_file_or_stdin, help="System YAML file, or - for standard input."),
+    ],
     fmt: Annotated[
         Format, typer.Option("--format", "-f", help="Output format.", case_sensitive=False)
     ] = Format.table,
@@ -170,11 +192,16 @@ def _plain(analysis: Analysis) -> str:
 
 @app.command("validate")
 def validate_command(
-    files: Annotated[list[Path], typer.Argument(help="System YAML file(s).", metavar="FILE...")],
+    files: Annotated[
+        list[Path],
+        typer.Argument(help="System YAML file(s); - reads standard input.", metavar="FILE..."),
+    ],
 ) -> None:
     """Validate system descriptions against the schema and the control catalogue."""
     single = len(files) == 1
-    if single and not files[0].is_file():
+    if sum(str(f) == STDIN for f in files) > 1:
+        raise typer.BadParameter("standard input (-) can be given only once.", param_hint="'file'")
+    if single and str(files[0]) != STDIN and not files[0].is_file():
         what = "is a directory" if files[0].is_dir() else "does not exist"
         raise typer.BadParameter(f"File '{files[0]}' {what}.", param_hint="'file'")
     invalid = False
@@ -192,8 +219,9 @@ def validate_command(
                 problems = "; ".join(" ".join(p.splitlines()) for p in error.problems)
                 typer.echo(f"error: {error.source}: {problems}", err=True)
             continue
+        name = "<stdin>" if str(file) == STDIN else file
         typer.echo(
-            f"ok: {file} ({len(system.agents)} agent(s), {len(system.channels)} channel(s), "
+            f"ok: {name} ({len(system.agents)} agent(s), {len(system.channels)} channel(s), "
             f"{len(system.tools)} tool(s), {len(system.data_stores)} data store(s), "
             f"{len(system.controls)} control(s))"
         )
@@ -203,7 +231,10 @@ def validate_command(
 
 @app.command("diagram")
 def diagram_command(
-    file: Annotated[Path, typer.Argument(exists=True, dir_okay=False, help="System YAML file.")],
+    file: Annotated[
+        Path,
+        typer.Argument(callback=_file_or_stdin, help="System YAML file, or - for standard input."),
+    ],
     output: Annotated[
         Path | None,
         typer.Option("--output", "-o", help="Write the diagram here instead of stdout."),
@@ -231,7 +262,11 @@ def init_command(
     if path.exists() and not force:
         typer.echo(f"error: {path} exists; use --force to overwrite", err=True)
         raise typer.Exit(EXIT_INPUT)
-    path.write_text(TEMPLATE, encoding="utf-8")
+    try:
+        path.write_text(TEMPLATE, encoding="utf-8")
+    except OSError as error:
+        typer.echo(f"error: cannot write {path}: {error.strerror or error}", err=True)
+        raise typer.Exit(EXIT_INPUT) from error
     typer.echo(f"wrote {path}; next: atm analyse {path}")
 
 
@@ -411,8 +446,12 @@ def _diff_csv(diff: Diff) -> str:
 
 @app.command("diff")
 def diff_command(
-    old: Annotated[Path, typer.Argument(exists=True, dir_okay=False, help="Previous system YAML.")],
-    new: Annotated[Path, typer.Argument(exists=True, dir_okay=False, help="Current system YAML.")],
+    old: Annotated[
+        Path, typer.Argument(callback=_file_or_stdin, help="Previous system YAML, or - for stdin.")
+    ],
+    new: Annotated[
+        Path, typer.Argument(callback=_file_or_stdin, help="Current system YAML, or - for stdin.")
+    ],
     fmt: Annotated[
         DiffFormat, typer.Option("--format", "-f", help="Output format.", case_sensitive=False)
     ] = DiffFormat.table,
@@ -425,6 +464,8 @@ def diff_command(
     ] = False,
 ) -> None:
     """Show what changed in the threat register between two system descriptions."""
+    if str(old) == STDIN and str(new) == STDIN:
+        raise typer.BadParameter("only one of the two files can be standard input (-).")
     diff = diff_analyses(_load(old), _load(new))
     renderers = {
         DiffFormat.table: _diff_text,
