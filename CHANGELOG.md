@@ -6,6 +6,10 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- JSON report contract in `docs/report-format.md`, covering the existing version `"1"`, fields, ordering and score meanings, with an example and field tables checked against CLI output (#12).
+
 ## [0.3.0] - 2026-10-16
 
 ### Added
