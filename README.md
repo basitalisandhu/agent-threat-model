@@ -132,7 +132,7 @@ Both `atm` and `agent-threat-model` are installed as commands.
 | `atm diff old.yaml new.yaml` | Threats added, removed and re-scored between two descriptions; `--format table/markdown/json/csv`, `--fail-on-regression`. |
 | `atm schema` | Print the JSON Schema for system files. |
 
-`analyse`, `validate`, `diagram` and `diff` read the system description from standard input when the file is `-`, so a generated YAML can be piped straight in: `generate-system | atm analyse - --fail-on high`. The report names the source `<stdin>`; for SARIF that you upload to code scanning, analyse the committed file instead, so alerts point at a path in the repository.
+`analyse`, `validate`, `diagram` and `diff` read the system description from standard input when the file is `-`, so a generated YAML can be piped straight in: `generate-system | atm analyse - --fail-on high`. The report names the source `<stdin>`; for SARIF that you upload to code scanning, pass `--source-name PATH` (e.g. `cat system.yaml | atm analyse - --format sarif --source-name system.yaml`) so alerts point at a path in the repository.
 
 ## Input format
 

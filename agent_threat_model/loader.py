@@ -55,10 +55,10 @@ def system_from_dict(
 STDIN = "-"
 
 
-def read_source(path: Path | str) -> tuple[str, str]:
+def read_source(path: Path | str, source_name: str | None = None) -> tuple[str, str]:
     """Return ``(text, source name)`` for a file, or for standard input when ``path`` is ``-``."""
     from_stdin = str(path) == STDIN
-    source = "<stdin>" if from_stdin else str(path)
+    source = (source_name or "<stdin>") if from_stdin else str(path)
     try:
         data = sys.stdin.buffer.read() if from_stdin else Path(path).read_bytes()
     except OSError as error:
@@ -71,9 +71,11 @@ def read_source(path: Path | str) -> tuple[str, str]:
         ) from error
 
 
-def load_system(path: Path | str, catalogue: Catalogue | None = None) -> AgentSystem:
+def load_system(
+    path: Path | str, catalogue: Catalogue | None = None, source_name: str | None = None
+) -> AgentSystem:
     """Read a YAML file, or standard input for ``-``, and return an :class:`AgentSystem`."""
-    text, source = read_source(path)
+    text, source = read_source(path, source_name=source_name)
     return system_from_text(text, source, catalogue)
 
 
