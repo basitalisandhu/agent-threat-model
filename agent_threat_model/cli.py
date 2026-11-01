@@ -108,9 +108,9 @@ def _file_or_stdin(value: Path | None) -> Path | None:
     raise typer.BadParameter(f"File '{value}' {what}.")
 
 
-def _load(path: Path) -> Analysis:
+def _load(path: Path, source_name: str | None = None) -> Analysis:
     try:
-        text, source = read_source(path)
+        text, source = read_source(path, source_name=source_name)
         system = system_from_text(text, source)
     except SystemLoadError as error:
         typer.echo(f"error: {error.source} is not a valid system description", err=True)
@@ -164,9 +164,19 @@ def analyse_command(
     plain: Annotated[
         bool, typer.Option("--plain", help="Plain text table without colours.")
     ] = False,
+    source_name: Annotated[
+        str | None,
+        typer.Option(
+            "--source-name",
+            help="Source name to use in reports when reading from standard input (-).",
+        ),
+    ] = None,
 ) -> None:
     """Analyse a system description and print a ranked threat table or a report."""
-    analysis = _load(file)
+    if source_name is not None and str(file) != STDIN:
+        typer.echo("error: --source-name can only be used with standard input (-)", err=True)
+        raise typer.Exit(2)
+    analysis = _load(file, source_name=source_name)
     if fmt == Format.table and output is None:
         if plain or not HAVE_RICH or not sys.stdout.isatty():
             sys.stdout.write(render(analysis, "table") if not plain else _plain(analysis))
@@ -462,11 +472,26 @@ def diff_command(
             "--fail-on-regression", help="Exit 1 when threats were added or the score rose."
         ),
     ] = False,
+    source_name: Annotated[
+        str | None,
+        typer.Option(
+            "--source-name",
+            help="Source name to use in reports when reading from standard input (-).",
+        ),
+    ] = None,
 ) -> None:
     """Show what changed in the threat register between two system descriptions."""
     if str(old) == STDIN and str(new) == STDIN:
         raise typer.BadParameter("only one of the two files can be standard input (-).")
-    diff = diff_analyses(_load(old), _load(new))
+    if source_name is not None and str(old) != STDIN and str(new) != STDIN:
+        typer.echo("error: --source-name can only be used with standard input (-)", err=True)
+        raise typer.Exit(2)
+    old_source_name = source_name if str(old) == STDIN else None
+    new_source_name = source_name if str(new) == STDIN else None
+    diff = diff_analyses(
+        _load(old, source_name=old_source_name),
+        _load(new, source_name=new_source_name),
+    )
     renderers = {
         DiffFormat.table: _diff_text,
         DiffFormat.markdown: _diff_markdown,
